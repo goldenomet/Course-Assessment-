@@ -1,0 +1,6 @@
+{
+  "name": "Prompt Practice · Workplace AI",
+  "description": "Learn how to write a useful prompt, spot the limits of an AI response, and use AI responsibly at work. Includes three lessons, an interactive 10-question quiz, and admin review.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

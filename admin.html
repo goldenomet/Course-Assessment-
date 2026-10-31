@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin Portal · Course Assessment</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink: #0d1a16;
+  --ink-secondary: #2f4039;
+  --muted: #5e7269;
+  --paper: #f5f8f5;
+  --card: #ffffff;
+  --line: #e1e7e2;
+  --line-strong: #c8d4cb;
+  --teal-900: #02363b;
+  --teal-800: #024b52;
+  --teal-700: #026078;
+  --teal-600: #027a75;
+  --teal-500: #00998f;
+  --teal-400: #0cb8a7;
+  --teal-100: #e2f5f1;
+  --teal-50: #f0faf8;
+  --lime: #d2f274;
+  --green-dark: #125e47;
+  --yellow: #fbf3d9;
+  --yellow-ink: #876211;
+  --red: #c24134;
+  --red-bg: #fff5f3;
+  --shadow-sm: 0 1px 3px rgba(13, 26, 22, 0.04), 0 1px 2px rgba(13, 26, 22, 0.02);
+  --shadow-card: 0 2px 8px -2px rgba(13, 26, 22, 0.04), 0 16px 36px -6px rgba(13, 26, 22, 0.06);
+  --shadow-elevated: 0 12px 32px -4px rgba(2, 96, 120, 0.12), 0 24px 60px -12px rgba(13, 26, 22, 0.08);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  background-image: 
+    radial-gradient(at 100% 0%, rgba(12, 184, 167, 0.06) 0px, transparent 45%),
+    radial-gradient(at 0% 100%, rgba(2, 96, 120, 0.05) 0px, transparent 50%);
+  color: var(--ink);
+  font: 15px/1.65 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.shell {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 24px 32px 80px;
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding: 10px 0 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font: 800 18px 'Space Grotesk', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.brandmark-img {
+  height: 38px;
+  width: 38px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.admin-badge {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--teal-900);
+  color: #ffffff;
+  padding: 4px 9px;
+  border-radius: 6px;
+  margin-left: 4px;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.studentlink {
+  color: var(--muted);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 13.5px;
+  padding: 7px 13px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.studentlink:hover {
+  background: #f0faf8;
+  color: var(--teal-700);
+  border-color: var(--teal-400);
+}
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 7px 13px;
+  border-radius: 9px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 13.5px;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #fff4f2;
+  color: var(--red);
+  border-color: #f7cecb;
+}
+
+/* CARDS */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 36px 40px;
+  box-shadow: var(--shadow-card);
+  margin-top: 28px;
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.kicker {
+  color: var(--teal-600);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+h1 {
+  font: 800 clamp(28px, 3.5vw, 36px)/1.2 'Space Grotesk', sans-serif;
+  letter-spacing: -0.03em;
+  margin: 6px 0 6px;
+  color: var(--ink);
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 14.5px;
+}
+
+/* LOGIN FORM */
+.login-box {
+  max-width: 460px;
+  margin: 28px 0;
+  padding: 30px;
+  background: #f9fbf9;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.field label {
+  font-size: 12.5px;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrap input {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 13px 44px 13px 15px;
+  font: inherit;
+  font-size: 14.5px;
+  background: #ffffff;
+  color: var(--ink);
+  transition: all 0.2s ease;
+}
+
+.input-wrap input:focus {
+  outline: none;
+  border-color: var(--teal-500);
+  box-shadow: 0 0 0 4px rgba(2, 122, 117, 0.12);
+}
+
+.input-eye {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  padding: 6px;
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+}
+
+.btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, var(--teal-700) 0%, var(--teal-600) 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 6px rgba(2, 96, 120, 0.18), 0 8px 18px -4px rgba(2, 122, 117, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, var(--teal-800) 0%, var(--teal-700) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(2, 96, 120, 0.22), 0 12px 24px -4px rgba(2, 122, 117, 0.32);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn.secondary {
+  background: #ffffff;
+  color: var(--ink);
+  box-shadow: none;
+  border: 1px solid var(--line);
+}
+
+.btn.secondary:hover {
+  background: #f0faf8;
+  color: var(--teal-800);
+  border-color: var(--teal-400);
+  transform: translateY(-1px);
+}
+
+.error-msg {
+  color: var(--red);
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-top: 10px;
+  min-height: 1.4em;
+}
+
+/* KPI STATS */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 28px 0;
+}
+
+.kpi-card {
+  background: #f9fbf9;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px 22px;
+  transition: transform 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+}
+
+.kpi-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.kpi-value {
+  font: 800 32px/1.1 'Space Grotesk', sans-serif;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-top: 6px;
+}
+
+.kpi-sub {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* TOOLBAR & CONTROLS */
+.filter-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 28px 0 18px;
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.search-input {
+  flex: 1;
+  max-width: 380px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 14px;
+  background: #ffffff;
+  color: var(--ink);
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--teal-500);
+  box-shadow: 0 0 0 3px rgba(2, 122, 117, 0.1);
+}
+
+.filter-select {
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  background: #ffffff;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--teal-500);
+}
+
+.table-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* SUBMISSIONS TABLE */
+.table-container {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+th, td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+th {
+  background: #f7faf8;
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: #fafdfb;
+}
+
+.learner-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--teal-100);
+  color: var(--teal-800);
+  font: 700 13px 'Space Grotesk', sans-serif;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.learner-name {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.score-badge.high {
+  background: #ecfaf3;
+  color: var(--green-dark);
+  border: 1px solid #c7f0db;
+}
+
+.score-badge.mid {
+  background: var(--yellow);
+  color: var(--yellow-ink);
+  border: 1px solid #ebd79e;
+}
+
+.score-badge.low {
+  background: var(--red-bg);
+  color: var(--red);
+  border: 1px solid #f6d1cb;
+}
+
+.audit-btn {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  padding: 6px 13px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--teal-700);
+  transition: all 0.15s ease;
+}
+
+.audit-btn:hover {
+  background: var(--teal-50);
+  border-color: var(--teal-400);
+  color: var(--teal-900);
+  transform: translateY(-1px);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 56px 20px;
+  color: var(--muted);
+}
+
+.empty-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+  opacity: 0.6;
+}
+
+/* AUDIT MODAL */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 26, 22, 0.45);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-sheet {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  max-width: 720px;
+  width: 100%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-elevated);
+  transform: scale(0.96) translateY(12px);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-backdrop.show .modal-sheet {
+  transform: scale(1) translateY(0);
+}
+
+.modal-header {
+  padding: 22px 28px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-body {
+  padding: 24px 28px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  color: var(--muted);
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.modal-close:hover {
+  background: #f0f4f1;
+  color: var(--ink);
+}
+
+.question-card {
+  padding: 16px 20px;
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+}
+
+.question-card.correct {
+  background: #f4fbf8;
+  border-color: #cdeee0;
+}
+
+.question-card.incorrect {
+  background: #fff8f6;
+  border-color: #f7dad3;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .shell {
+    padding: 16px 14px 48px;
+  }
+  .card {
+    padding: 22px 18px;
+  }
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .filter-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-wrap {
+    min-width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <img src="/assets/aistudio/RIQ_logo_photo_c007b14a.jpg" alt="Course Assessment" class="brandmark-img">
+      Course Assessment
+      <span class="admin-badge">Admin Review</span>
+    </div>
+    <div class="top-actions">
+      <a class="studentlink" href="/">Student Course ↗</a>
+      <button class="logout-btn hidden" id="logoutBtn">Lock Portal</button>
+    </div>
+  </header>
+
+  <!-- LOGIN PANEL -->
+  <main class="card" id="loginCard">
+    <div class="kicker">Security Verification</div>
+    <h1>Admin Review Portal</h1>
+    <div class="muted">Enter your authorization access key to access course analytics and inspect submissions.</div>
+
+    <div class="login-box">
+      <div class="field">
+        <label for="adminKeyInput">Secret Admin Access Key</label>
+        <div class="input-wrap">
+          <input id="adminKeyInput" type="password" autocomplete="current-password" placeholder="Enter key (32+ characters)">
+          <button type="button" class="input-eye" id="toggleKeyVisibility" title="Show/Hide Key">👁</button>
+        </div>
+      </div>
+      <button class="btn" id="loginBtn" style="width:100%">
+        Authenticate & Open Portal
+      </button>
+      <div class="error-msg" id="loginError"></div>
+      <div class="muted" style="margin-top:10px;font-size:12.5px">
+        Submissions are stored securely in the local backend directory.
+      </div>
+    </div>
+  </main>
+
+  <!-- STANDALONE DASHBOARD PANEL -->
+  <main class="card hidden" id="dashboardCard">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px">
+      <div>
+        <div class="kicker">Real-time Learner Performance</div>
+        <h1>Assessment Dashboard</h1>
+        <div class="muted">Live overview of learner responses, overall scoring, and course progress.</div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn secondary" id="refreshBtn">↻ Refresh</button>
+        <button class="btn" id="exportBtn">↓ Export CSV</button>
+      </div>
+    </div>
+
+    <!-- KPI STATS CARDS -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Submissions</div>
+        <div class="kpi-value" id="kpiCount">0</div>
+        <div class="kpi-sub">Unique course assessments</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Average Score</div>
+        <div class="kpi-value" id="kpiAvg">0<small style="font-size:16px;color:var(--muted)">/10</small></div>
+        <div class="kpi-sub" id="kpiAvgPct">0% class average</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Passing Rate</div>
+        <div class="kpi-value" id="kpiPassRate">0%</div>
+        <div class="kpi-sub">Scored 70% (7/10) or higher</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">All Lessons Completed</div>
+        <div class="kpi-value" id="kpiLessonsDone">0%</div>
+        <div class="kpi-sub">Finished all 3 modules</div>
+      </div>
+    </div>
+
+    <!-- FILTER & SEARCH BAR -->
+    <div class="filter-toolbar">
+      <div class="search-wrap">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search learner name or email...">
+        <select class="filter-select" id="scoreFilter">
+          <option value="all">All Scores</option>
+          <option value="perfect">Perfect (10/10)</option>
+          <option value="passed">Passed (7-9/10)</option>
+          <option value="review">Needs Review (&lt; 7/10)</option>
+        </select>
+        <select class="filter-select" id="sortFilter">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="highest">Highest score</option>
+          <option value="lowest">Lowest score</option>
+        </select>
+      </div>
+      <span class="muted" id="filterCount" style="font-size:13.5px;font-weight:600"></span>
+    </div>
+
+    <!-- SUBMISSIONS TABLE -->
+    <div class="table-container">
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Learner</th>
+              <th>Email</th>
+              <th>Score</th>
+              <th>Lesson Modules</th>
+              <th>Submitted At</th>
+              <th style="text-align:right">Audit Details</th>
+            </tr>
+          </thead>
+          <tbody id="submissionsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- AUDIT MODAL -->
+<div class="modal-backdrop" id="auditModal">
+  <div class="modal-sheet">
+    <div class="modal-header">
+      <div>
+        <div class="kicker">Learner Audit Sheet</div>
+        <h3 id="modalLearnerName" style="margin:4px 0 0;font:800 20px 'Space Grotesk',sans-serif">Alex Morgan</h3>
+        <span class="muted" id="modalLearnerMeta" style="font-size:13px"></span>
+      </div>
+      <button class="modal-close" id="modalCloseBtn">&times;</button>
+    </div>
+    <div class="modal-body" id="modalQuestionsBody"></div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  { q: 'What is a prompt best described as in this course?', a: ['A delegation brief that tells AI what to do and how', 'A guarantee that the AI answer is correct', 'A company approval for AI use'], c: 0, e: 'A prompt is the instruction, question, and background you provide to guide the AI.' },
+  { q: 'Which sequence matches the five-part prompt checklist?', a: ['Task, context, constraints, format, verification', 'Context, answer, approval, format, summary', 'Task, confidence, speed, format, disclosure'], c: 0, e: 'The checklist is task, context, constraints, format, and verification.' },
+  { q: 'Why can a vague prompt lead to a convincing but false answer?', a: ['AI may fill missing details by guessing', 'AI always searches company records', 'AI refuses to answer without a format'], c: 0, e: 'When context is missing, generative AI may make assumptions and present them confidently.' },
+  { q: 'What should a prompt request when report information is missing?', a: ['Ask the AI to infer a likely value', 'Ask it to mark the information “not provided”', 'Ask it to use a typical value'], c: 1, e: 'The source recommends explicitly marking missing information as “not provided.”' },
+  { q: 'How should you verify an AI-generated report?', a: ['Compare it with the original notes and check details', 'Rely on its confident tone', 'Review only its formatting'], c: 0, e: 'Check dates, names, measurements, unsupported claims, format, and the source notes.' },
+  { q: 'When may sensitive information be uploaded to an AI tool?', a: ['Whenever it saves time', 'Only after proper authorization', 'If names are not in the prompt'], c: 1, e: 'The source says not to upload sensitive information without proper authorization.' },
+  { q: 'What is the “think” rule asking you to do?', a: ['Accept findings that look polished', 'Understand and evaluate findings yourself', 'Ask AI to make the final decision'], c: 1, e: 'If you cannot explain a finding yourself, do not accept it.' },
+  { q: 'When should you disclose that you used AI?', a: ['When required by workplace or school rules', 'Only when asked by the AI', 'Never, if you checked the result'], c: 0, e: 'Follow disclosure requirements, integrity rules, and the institution’s AI policies.' },
+  { q: 'Who has ultimate responsibility for work produced with AI assistance?', a: ['The AI tool provider', 'The person presenting the work', 'The person who wrote the prompt only'], c: 1, e: 'The responsible staff member must verify and approve the work.' },
+  { q: 'Which item must an AI never invent in a high-risk project report?', a: ['A requested heading', 'A measurement not provided in the notes', 'A verification checklist'], c: 1, e: 'The source warns against invented measurements, observations, causes, instructions, policies, actions, or approvals.' }
+];
+const answerKey = [0, 0, 0, 1, 0, 1, 1, 0, 1, 1];
+
+let allSubmissions = [];
+const sessionKeyStorage = 'course_assessment_admin_session_key';
+
+const $ = id => document.getElementById(id);
+
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// Password visibility toggle
+$('toggleKeyVisibility').onclick = () => {
+  const inp = $('adminKeyInput');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+};
+
+// Check for active session on load
+window.addEventListener('DOMContentLoaded', () => {
+  const savedKey = sessionStorage.getItem(sessionKeyStorage);
+  if (savedKey) {
+    $('adminKeyInput').value = savedKey;
+    fetchSubmissions(savedKey);
+  }
+});
+
+$('loginBtn').onclick = () => {
+  const key = $('adminKeyInput').value.trim();
+  if (!key) {
+    $('loginError').textContent = 'Please enter an admin key.';
+    return;
+  }
+  fetchSubmissions(key);
+};
+
+$('adminKeyInput').onkeydown = (e) => {
+  if (e.key === 'Enter') $('loginBtn').click();
+};
+
+$('logoutBtn').onclick = () => {
+  sessionStorage.removeItem(sessionKeyStorage);
+  $('adminKeyInput').value = '';
+  $('dashboardCard').classList.add('hidden');
+  $('loginCard').classList.remove('hidden');
+  $('logoutBtn').classList.add('hidden');
+};
+
+async function fetchSubmissions(key) {
+  $('loginError').textContent = '';
+  const btn = $('loginBtn');
+  btn.disabled = true;
+  btn.textContent = 'Verifying credentials...';
+
+  try {
+    const res = await fetch('/api/submissions', {
+      headers: { 'X-Admin-Key': key }
+    });
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        throw new Error('Access key rejected. Please check your credentials.');
+      } else {
+        throw new Error(`Server returned error status (${res.status}).`);
+      }
+    }
+
+    allSubmissions = await res.json();
+    sessionStorage.setItem(sessionKeyStorage, key);
+
+    $('loginCard').classList.add('hidden');
+    $('dashboardCard').classList.remove('hidden');
+    $('logoutBtn').classList.remove('hidden');
+
+    updateKPIs();
+    renderTable();
+  } catch (err) {
+    $('loginError').textContent = err.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Authenticate & Open Portal';
+  }
+}
+
+$('refreshBtn').onclick = () => {
+  const key = sessionStorage.getItem(sessionKeyStorage) || $('adminKeyInput').value.trim();
+  if (key) fetchSubmissions(key);
+};
+
+function updateKPIs() {
+  const count = allSubmissions.length;
+  $('kpiCount').textContent = count;
+
+  if (count === 0) {
+    $('kpiAvg').innerHTML = `0<small style="font-size:16px;color:var(--muted)">/10</small>`;
+    $('kpiAvgPct').textContent = '0% class average';
+    $('kpiPassRate').textContent = '0%';
+    $('kpiLessonsDone').textContent = '0%';
+    return;
+  }
+
+  const totalScore = allSubmissions.reduce((sum, item) => sum + (Number(item.score) || 0), 0);
+  const avg = (totalScore / count).toFixed(1);
+  const avgPct = Math.round((totalScore / (count * 10)) * 100);
+  $('kpiAvg').innerHTML = `${avg}<small style="font-size:16px;color:var(--muted)">/10</small>`;
+  $('kpiAvgPct').textContent = `${avgPct}% class average`;
+
+  const passedCount = allSubmissions.filter(item => (Number(item.score) || 0) >= 7).length;
+  const passRate = Math.round((passedCount / count) * 100);
+  $('kpiPassRate').textContent = `${passRate}%`;
+
+  const fullyDoneCount = allSubmissions.filter(item => Number(item.lessonsCompleted) === 3).length;
+  const fullyDonePct = Math.round((fullyDoneCount / count) * 100);
+  $('kpiLessonsDone').textContent = `${fullyDonePct}%`;
+}
+
+function getFilteredAndSorted() {
+  const query = $('searchInput').value.trim().toLowerCase();
+  const scoreFilter = $('scoreFilter').value;
+  const sortFilter = $('sortFilter').value;
+
+  let list = allSubmissions.filter(item => {
+    const matchQuery = !query || 
+      (item.name || '').toLowerCase().includes(query) || 
+      (item.email || '').toLowerCase().includes(query);
+
+    if (!matchQuery) return false;
+
+    const s = Number(item.score) || 0;
+    if (scoreFilter === 'perfect') return s === 10;
+    if (scoreFilter === 'passed') return s >= 7 && s <= 9;
+    if (scoreFilter === 'review') return s < 7;
+    return true;
+  });
+
+  list.sort((a, b) => {
+    if (sortFilter === 'newest') return b.completedAt.localeCompare(a.completedAt);
+    if (sortFilter === 'oldest') return a.completedAt.localeCompare(b.completedAt);
+    if (sortFilter === 'highest') return (b.score || 0) - (a.score || 0);
+    if (sortFilter === 'lowest') return (a.score || 0) - (b.score || 0);
+    return 0;
+  });
+
+  return list;
+}
+
+function renderTable() {
+  const list = getFilteredAndSorted();
+  const tbody = $('submissionsTableBody');
+  $('filterCount').textContent = `Showing ${list.length} of ${allSubmissions.length} submissions`;
+
+  if (list.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" class="empty-state">
+          <div class="empty-icon">📋</div>
+          <div style="font-weight:700;font-size:16px;color:var(--ink)">No submissions match your filters</div>
+          <div style="font-size:13.5px;color:var(--muted);margin-top:4px">Learner submissions will appear here once they complete the assessment.</div>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = list.map((item, index) => {
+    const initials = (item.name || 'Student').split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+    const score = Number(item.score) || 0;
+    const badgeClass = score === 10 ? 'high' : (score >= 7 ? 'mid' : 'low');
+    const formattedDate = new Date(item.completedAt).toLocaleString(undefined, {
+      month: 'short', day: 'numeric', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+
+    return `
+      <tr>
+        <td>
+          <div class="learner-cell">
+            <div class="avatar">${initials}</div>
+            <div>
+              <div class="learner-name">${esc(item.name)}</div>
+            </div>
+          </div>
+        </td>
+        <td style="color:var(--ink-secondary)">${esc(item.email)}</td>
+        <td>
+          <span class="score-badge ${badgeClass}">
+            ${score}/10 ${score >= 7 ? '✓' : '⚠'}
+          </span>
+        </td>
+        <td style="font-weight:600;color:var(--ink-secondary)">${item.lessonsCompleted}/3 completed</td>
+        <td style="color:var(--muted);font-size:13px">${formattedDate}</td>
+        <td style="text-align:right">
+          <button class="audit-btn" onclick="openAuditModal('${item.id}')">
+            View Audit Sheet →
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+$('searchInput').oninput = renderTable;
+$('scoreFilter').onchange = renderTable;
+$('sortFilter').onchange = renderTable;
+
+// MODAL AUDIT SHEET
+window.openAuditModal = function(id) {
+  const item = allSubmissions.find(x => x.id === id);
+  if (!item) return;
+
+  $('modalLearnerName').textContent = item.name;
+  $('modalLearnerMeta').textContent = `${item.email} · Score: ${item.score}/10 · Completed ${new Date(item.completedAt).toLocaleString()}`;
+
+  const body = $('modalQuestionsBody');
+  body.innerHTML = questions.map((q, i) => {
+    const chosenIdx = item.answers?.[i];
+    const isCorrect = chosenIdx === q.c;
+    const chosenText = chosenIdx !== undefined ? q.a[chosenIdx] : 'Not answered';
+    const correctText = q.a[q.c];
+
+    return `
+      <div class="question-card ${isCorrect ? 'correct' : 'incorrect'}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-weight:800;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em">Question ${i + 1}</span>
+          <span style="font-weight:700;font-size:12.5px;color:${isCorrect ? 'var(--green-dark)' : 'var(--red)'}">
+            ${isCorrect ? '✓ Correct Response' : '✗ Incorrect Response'}
+          </span>
+        </div>
+        <div style="font-weight:700;font-size:15px;color:var(--ink);margin-bottom:10px">${q.q}</div>
+        <div style="font-size:14px;color:var(--ink-secondary);line-height:1.5">
+          <b>Learner Answer:</b> ${esc(chosenText)}
+          ${!isCorrect ? `<br><b style="color:var(--green-dark)">Correct Answer:</b> ${esc(correctText)}` : ''}
+        </div>
+        <div style="margin-top:8px;font-size:13px;color:var(--muted);background:rgba(0,0,0,0.03);padding:8px 12px;border-radius:8px">
+          <b>Rationale:</b> ${q.e}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  $('auditModal').classList.add('show');
+};
+
+$('modalCloseBtn').onclick = () => $('auditModal').classList.remove('show');
+$('auditModal').onclick = (e) => {
+  if (e.target === $('auditModal')) $('auditModal').classList.remove('show');
+};
+
+// CSV EXPORT
+$('exportBtn').onclick = () => {
+  const rows = [
+    [
+      'ID', 'Name', 'Email', 'Score', 'Total', 'Lessons Completed', 'Submitted At',
+      ...questions.map((_, i) => `Q${i + 1} Status`),
+      ...questions.map((_, i) => `Q${i + 1} Learner Choice`)
+    ],
+    ...allSubmissions.map(r => [
+      r.id,
+      r.name,
+      r.email,
+      r.score,
+      r.total,
+      r.lessonsCompleted,
+      r.completedAt,
+      ...questions.map((_, i) => r.answers?.[i] === answerKey[i] ? 'Correct' : 'Incorrect'),
+      ...questions.map((q, i) => r.answers?.[i] !== undefined ? q.a[r.answers[i]] : '')
+    ])
+  ];
+
+  const csv = rows.map(row => row.map(v => '"' + String(v ?? '').replaceAll('"', '""') + '"').join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = `course-assessment-submissions-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+</script>
+</body>
+</html>

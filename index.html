@@ -1,0 +1,1514 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f9f6">
+<title>Course Assessment · Workplace AI</title>
+<meta name="description" content="Learn how to write a useful prompt, spot the limits of an AI response, and use AI responsibly at work. Includes three lessons, an interactive 10-question quiz, and admin review." />
+<meta property="og:title" content="Course Assessment · Workplace AI" />
+<meta property="og:description" content="Learn how to write a useful prompt, spot the limits of an AI response, and use AI responsibly at work. Includes three lessons, an interactive 10-question quiz, and admin review." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink: #0d1a16;
+  --ink-secondary: #31423c;
+  --muted: #5e7269;
+  --paper: #f6f8f5;
+  --card: #ffffff;
+  --line: #e2e8e3;
+  --line-strong: #c8d4cb;
+  --teal-900: #02363b;
+  --teal-800: #024b52;
+  --teal-700: #026078;
+  --teal-600: #027a75;
+  --teal-500: #00998f;
+  --teal-400: #0cb8a7;
+  --teal-100: #e2f5f1;
+  --teal-50: #f0faf8;
+  --lime: #d2f274;
+  --yellow: #fef8e7;
+  --yellow-border: #f2dc9b;
+  --red: #c24134;
+  --shadow-sm: 0 1px 3px rgba(13, 26, 22, 0.04), 0 1px 2px rgba(13, 26, 22, 0.02);
+  --shadow-card: 0 2px 8px -2px rgba(13, 26, 22, 0.05), 0 16px 36px -6px rgba(13, 26, 22, 0.07);
+  --shadow-elevated: 0 8px 24px -4px rgba(2, 122, 117, 0.12), 0 20px 48px -10px rgba(13, 26, 22, 0.08);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  background-image: 
+    radial-gradient(at 100% 0%, rgba(12, 184, 167, 0.05) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(2, 96, 120, 0.04) 0px, transparent 50%);
+  color: var(--ink);
+  font: 15px/1.65 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+button, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.shell {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 24px 28px 72px;
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font: 800 18px 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.brandmark-img {
+  height: 38px;
+  width: 38px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand:hover .brandmark-img {
+  transform: scale(1.05) rotate(1deg);
+}
+
+.topright {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-badge-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal-600);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(2, 122, 117, 0.06);
+  border: 1px solid rgba(2, 122, 117, 0.15);
+  transition: all 0.2s ease;
+}
+
+.admin-badge-link:hover {
+  background: rgba(2, 122, 117, 0.12);
+  transform: translateY(-1px);
+}
+
+/* HERO */
+.hero {
+  padding: 40px 0 32px;
+  display: grid;
+  grid-template-columns: 1.35fr 0.85fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.hero h1 {
+  font: 800 clamp(32px, 4.4vw, 46px)/1.12 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  margin: 0;
+  max-width: 620px;
+}
+
+.hero-box {
+  background: linear-gradient(135deg, #024855 0%, #027a75 55%, #00998f 100%);
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 26px 28px;
+  position: relative;
+  overflow: hidden;
+  min-height: 148px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 16px 36px -8px rgba(2, 72, 85, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.hero-box:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 20px 42px -8px rgba(2, 72, 85, 0.35);
+}
+
+.hero-box::after {
+  content: '↗';
+  position: absolute;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 150px;
+  font-weight: 700;
+  right: 12px;
+  bottom: -45px;
+  color: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-box strong {
+  font: 700 21px/1.26 'Space Grotesk', sans-serif;
+  letter-spacing: -0.015em;
+  display: block;
+  max-width: 290px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-box span {
+  display: block;
+  margin-top: 10px;
+  color: #d1f2eb;
+  font-size: 13.5px;
+  font-weight: 450;
+  line-height: 1.5;
+  max-width: 310px;
+  position: relative;
+  z-index: 1;
+}
+
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 285px 1fr;
+  gap: 26px;
+  align-items: start;
+}
+
+/* SIDEBAR */
+.sidebar, .content-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.sidebar {
+  padding: 16px;
+  position: sticky;
+  top: 24px;
+}
+
+.navlist {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.navitem {
+  border: 1px solid transparent;
+  background: transparent;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  border-radius: 12px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.navitem:hover {
+  background: var(--teal-50);
+  color: var(--teal-800);
+  transform: translateX(2px);
+}
+
+.navitem.active {
+  background: var(--teal-100);
+  color: var(--teal-800);
+  border-color: rgba(2, 122, 117, 0.2);
+  box-shadow: 0 2px 6px rgba(2, 122, 117, 0.06);
+}
+
+.navnum {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--line);
+  background: #ffffff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  flex: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navitem:hover .navnum {
+  border-color: var(--teal-400);
+  color: var(--teal-700);
+}
+
+.active .navnum {
+  background: linear-gradient(135deg, var(--teal-700), var(--teal-500));
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(2, 122, 117, 0.3);
+  transform: scale(1.08);
+}
+
+.done .navnum {
+  background: var(--lime);
+  color: var(--ink);
+  border-color: #bce445;
+  font-weight: 800;
+}
+
+/* PROGRESS */
+.progressbox {
+  margin: 18px 6px 6px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.progressrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+
+.bar {
+  height: 8px;
+  background: #ebf0ec;
+  border-radius: 99px;
+  margin-top: 9px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar i {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #026078 0%, #027a75 50%, #0cb8a7 100%);
+  border-radius: 99px;
+  transition: width 0.5s cubic-bezier(0.34, 1.25, 0.64, 1);
+  box-shadow: 0 0 10px rgba(12, 184, 167, 0.4);
+}
+
+/* CONTENT CARD */
+.content-card {
+  padding: 38px 44px;
+  min-height: 520px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.content-enter {
+  animation: slideFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.kicker {
+  color: var(--teal-600);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.content-card h2 {
+  font: 800 clamp(26px, 3vw, 34px)/1.2 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin: 8px 0 14px;
+}
+
+.lead {
+  font-size: 17.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0 0 28px;
+  font-weight: 450;
+}
+
+.lessonbody h3 {
+  font: 700 19px/1.3 'Space Grotesk', sans-serif;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 28px 0 10px;
+}
+
+.lessonbody p {
+  color: var(--ink-secondary);
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+
+.callout {
+  background: #f0faf8;
+  border-left: 4px solid var(--teal-500);
+  padding: 18px 22px;
+  border-radius: 0 14px 14px 0;
+  margin: 24px 0;
+  border: 1px solid rgba(2, 122, 117, 0.12);
+  border-left-width: 4px;
+}
+
+.callout b {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--teal-900);
+  font-size: 15px;
+}
+
+/* PROMPT COMPARE */
+.promptcompare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.prompt {
+  border-radius: 14px;
+  padding: 18px;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.prompt.bad {
+  background: #fff9f6;
+  border: 1px solid #f6ded7;
+}
+
+.prompt.good {
+  background: #f0fbf7;
+  border: 1px solid #c9ecdf;
+}
+
+.prompt:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+}
+
+.prompt-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.prompt small {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+}
+
+.prompt.bad small {
+  color: #b54737;
+}
+
+.prompt.good small {
+  color: var(--teal-700);
+}
+
+.copy-btn {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  transition: all 0.15s ease;
+}
+
+.copy-btn:hover {
+  background: #ffffff;
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+
+.prompt p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+/* INTERACTIVE TAGS */
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
+.tag {
+  background: #eff5f2;
+  border: 1px solid #d9e6df;
+  padding: 6px 13px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal-800);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tag:hover {
+  background: var(--teal-100);
+  border-color: var(--teal-400);
+  transform: translateY(-1px);
+}
+
+.tag.selected {
+  background: var(--teal-600);
+  border-color: var(--teal-600);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(2, 122, 117, 0.25);
+}
+
+.tag-tip {
+  display: none;
+  background: #f7faf8;
+  border: 1px solid var(--line);
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-top: 8px;
+  font-size: 13.5px;
+  color: var(--ink-secondary);
+}
+
+.tag-tip.show {
+  display: block;
+  animation: slideFadeIn 0.2s ease forwards;
+}
+
+/* BUTTONS */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 36px;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+
+.btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, var(--teal-700) 0%, var(--teal-600) 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14.5px;
+  letter-spacing: -0.01em;
+  box-shadow: 0 2px 6px rgba(2, 96, 120, 0.18), 0 8px 18px -4px rgba(2, 122, 117, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, var(--teal-800) 0%, var(--teal-700) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(2, 96, 120, 0.22), 0 12px 24px -4px rgba(2, 122, 117, 0.32);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn.secondary {
+  background: #eef3ef;
+  color: var(--ink);
+  box-shadow: none;
+  border: 1px solid var(--line);
+}
+
+.btn.secondary:hover {
+  background: #e3ece5;
+  color: var(--ink);
+  border-color: var(--line-strong);
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* QUIZ */
+.quizprogress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 600;
+  margin: 22px 0 12px;
+}
+
+.qbar {
+  height: 6px;
+  background: #ebf0ec;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.qbar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #026078, #0cb8a7);
+  border-radius: 99px;
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.question {
+  font: 700 21px/1.35 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 28px 0 18px;
+}
+
+.answers {
+  display: grid;
+  gap: 11px;
+}
+
+.answer {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  border: 1.5px solid var(--line);
+  padding: 14px 18px;
+  border-radius: 14px;
+  cursor: pointer;
+  background: #ffffff;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  user-select: none;
+}
+
+.answer:hover {
+  border-color: var(--teal-400);
+  background: #f7fcfa;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(2, 122, 117, 0.06);
+}
+
+.answer.selected {
+  border-color: var(--teal-600);
+  background: var(--teal-50);
+  box-shadow: 0 0 0 1px var(--teal-600), 0 4px 16px rgba(2, 122, 117, 0.1);
+}
+
+.radio-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  display: grid;
+  place-items: center;
+  flex: none;
+  transition: all 0.2s ease;
+  background: #ffffff;
+}
+
+.answer:hover .radio-dot {
+  border-color: var(--teal-500);
+}
+
+.answer.selected .radio-dot {
+  border-color: var(--teal-600);
+  background: var(--teal-600);
+}
+
+.radio-dot::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff;
+  transform: scale(0);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.answer.selected .radio-dot::after {
+  transform: scale(1);
+}
+
+.answer span.text {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  flex: 1;
+}
+
+.shortcut-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  background: #f0f4f1;
+  border-radius: 6px;
+  padding: 2px 7px;
+  border: 1px solid #dbe2dd;
+  letter-spacing: 0.02em;
+}
+
+.quizbottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
+}
+
+/* WELCOME FORM */
+.welcomeform {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 26px 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.field label {
+  font-size: 12.5px;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.field input {
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 13px 15px;
+  background: #ffffff;
+  font-size: 15px;
+  color: var(--ink);
+  transition: all 0.2s ease;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--teal-500);
+  box-shadow: 0 0 0 4px rgba(2, 122, 117, 0.12);
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+/* ENDBOX / SCORE */
+.endbox {
+  text-align: center;
+  padding: 36px 16px 20px;
+}
+
+.score-circle-wrap {
+  width: 140px;
+  height: 140px;
+  margin: 20px auto 24px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.score-circle-wrap svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.score-circle-bg {
+  fill: none;
+  stroke: #e6ede7;
+  stroke-width: 10;
+}
+
+.score-circle-bar {
+  fill: none;
+  stroke: url(#scoreGrad);
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.score-number {
+  position: absolute;
+  font: 800 38px/1 'Space Grotesk', sans-serif;
+  color: var(--teal-800);
+  letter-spacing: -0.04em;
+}
+
+.score-number small {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.result-card {
+  margin: 26px auto;
+  max-width: 520px;
+  text-align: left;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px 24px;
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  padding: 13px 22px;
+  background: #0d2621;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 100;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* CONFETTI CANVAS */
+#confettiCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+}
+
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 24px;
+  }
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+  }
+  .navlist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .content-card {
+    padding: 28px 24px;
+  }
+  .promptcompare {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .shell {
+    padding: 16px 14px 48px;
+  }
+  .navlist {
+    grid-template-columns: 1fr;
+  }
+  .welcomeform {
+    grid-template-columns: 1fr;
+  }
+  .wide {
+    grid-column: auto;
+  }
+}
+</style>
+</head>
+<body>
+<canvas id="confettiCanvas"></canvas>
+
+<div class="shell" id="app">
+  <header class="topbar">
+    <div class="brand">
+      <img src="/assets/aistudio/RIQ_logo_photo_c007b14a.jpg" alt="Course Assessment" class="brandmark-img">
+      Course Assessment
+    </div>
+    <div class="topright"></div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Work better with AI.<br>Keep human judgment in charge.</h1>
+    </div>
+    <div class="hero-box">
+      <strong>AI can help prepare the work.</strong>
+      <span>The responsible staff member verifies and approves it.</span>
+    </div>
+  </section>
+
+  <main class="layout" id="learner">
+    <aside class="sidebar">
+      <div class="navlist" id="navlist"></div>
+      <div class="progressbox">
+        <div class="progressrow">
+          <span>Course progress</span>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="bar">
+          <i id="progressBar"></i>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content-card" id="lesson"></section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+const lessons = [
+  {
+    title: 'AI as a colleague',
+    label: 'Lesson 1',
+    lead: 'Treat AI like a new junior teammate: quick and useful, but still in need of clear direction and review.',
+    body: `
+      <h3>Give the work a clear brief</h3>
+      <p>A prompt is the instruction, question, and background information you give an AI. Think of it as a delegation brief. A vague request leaves gaps; generative AI may fill those gaps with assumptions and confident but false information, sometimes called hallucinations or confabulations.</p>
+      
+      <div class="callout">
+        <b>AI assists; you stay accountable.</b>
+        Use AI to help prepare a first draft. Your professional judgment remains in the driver's seat.
+      </div>
+      
+      <h3>A five-part prompt checklist</h3>
+      <div class="tags" id="checklistTags">
+        <span class="tag" data-part="task">1 · Task</span>
+        <span class="tag" data-part="context">2 · Context</span>
+        <span class="tag" data-part="constraints">3 · Constraints</span>
+        <span class="tag" data-part="format">4 · Format</span>
+        <span class="tag" data-part="verification">5 · Verification</span>
+      </div>
+      <div class="tag-tip" id="tagTip"></div>
+
+      <p>Say what to produce, provide relevant verified facts and audience, state what is off-limits, specify how the output should look, and explain how a person will check it.</p>
+      
+      <h3>Weak prompt vs. stronger prompt</h3>
+      <div class="promptcompare">
+        <div class="prompt bad">
+          <div class="prompt-header">
+            <small>Weak Brief</small>
+          </div>
+          <p>“Write a site inspection report.”</p>
+        </div>
+        <div class="prompt good">
+          <div class="prompt-header">
+            <small>Stronger Brief</small>
+            <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+          </div>
+          <p id="strongerPromptText">Draft a site inspection report for training Site A using only the supplied date and observations. Use the requested sections. Do not invent measurements or causes; mark missing information “not provided.” Add a checklist of items to verify.</p>
+        </div>
+      </div>
+      <p>The stronger brief sets boundaries and gives missing information a safe, explicit treatment.</p>
+    `
+  },
+  {
+    title: 'Write better prompts',
+    label: 'Lesson 2',
+    lead: 'Specific context and boundaries help AI produce a draft that is easier to check.',
+    body: `
+      <h3>Use the five parts in practice</h3>
+      <p><b>Task:</b> Name the output. <b>Context:</b> Give the audience and verified source facts. <b>Constraints:</b> Say what the AI must not invent or assume. <b>Format:</b> Describe the sections or structure. <b>Verification:</b> Ask for information a person can use to check the result.</p>
+      
+      <div class="callout">
+        <b>Make gaps visible.</b>
+        If information is missing, ask the AI to say “not provided” instead of guessing.
+      </div>
+      
+      <h3>Review the draft against its source</h3>
+      <p>Compare the output side by side with the original notes. Confirm dates, names, measurements, and other details. Look for unsupported claims, check the requested format, and keep recommendations clearly separate from facts. Send the work for human approval only after checking it.</p>
+      
+      <p>Never allow an AI draft to invent high-risk project details such as observations, measurements, causes, client instructions, company policies, corrective actions, or approvals.</p>
+    `
+  },
+  {
+    title: 'Use AI responsibly',
+    label: 'Lesson 3',
+    lead: 'Five practical rules keep human judgment and data care at the center of AI-assisted work.',
+    body: `
+      <h3>Verify · Protect · Think · Be transparent · Take responsibility</h3>
+      <p><b>Verify:</b> Cross-check AI results against the original information. Check calculations and conclusions; a confident tone does not make an answer correct.</p>
+      <p><b>Protect:</b> Do not upload sensitive information without proper authorization. Private company records, personal details, and sensitive documents must stay out of an AI tool unless authorized.</p>
+      <p><b>Think:</b> Understand and evaluate the findings yourself. If you cannot explain a finding, do not accept it.</p>
+      <p><b>Be transparent:</b> Disclose AI use when your workplace or school requires it, and follow the relevant integrity rules and AI policies.</p>
+      <p><b>Take responsibility:</b> Check accuracy, interpret the result, and give final approval yourself. You are accountable for the work you present.</p>
+      
+      <div class="callout">
+        <b>Keep human judgment firmly in the driver's seat.</b>
+        AI should support your analytical skills, not replace your thinking.
+      </div>
+    `
+  }
+];
+
+const questions = [
+  {q:'What is a prompt best described as in this course?', a:['A delegation brief that tells AI what to do and how','A guarantee that the AI answer is correct','A company approval for AI use'], c:0, e:'A prompt is the instruction, question, and background you provide to guide the AI.'},
+  {q:'Which sequence matches the five-part prompt checklist?', a:['Task, context, constraints, format, verification','Context, answer, approval, format, summary','Task, confidence, speed, format, disclosure'], c:0, e:'The checklist is task, context, constraints, format, and verification.'},
+  {q:'Why can a vague prompt lead to a convincing but false answer?', a:['AI may fill missing details by guessing','AI always searches company records','AI refuses to answer without a format'], c:0, e:'When context is missing, generative AI may make assumptions and present them confidently.'},
+  {q:'What should a prompt request when report information is missing?', a:['Ask the AI to infer a likely value','Ask it to mark the information “not provided”','Ask it to use a typical value'], c:1, e:'The source recommends explicitly marking missing information as “not provided.”'},
+  {q:'How should you verify an AI-generated report?', a:['Compare it with the original notes and check details','Rely on its confident tone','Review only its formatting'], c:0, e:'Check dates, names, measurements, unsupported claims, format, and the source notes.'},
+  {q:'When may sensitive information be uploaded to an AI tool?', a:['Whenever it saves time','Only after proper authorization','If names are not in the prompt'], c:1, e:'The source says not to upload sensitive information without proper authorization.'},
+  {q:'What is the “think” rule asking you to do?', a:['Accept findings that look polished','Understand and evaluate findings yourself','Ask AI to make the final decision'], c:1, e:'If you cannot explain a finding yourself, do not accept it.'},
+  {q:'When should you disclose that you used AI?', a:['When required by workplace or school rules','Only when asked by the AI','Never, if you checked the result'], c:0, e:'Follow disclosure requirements, integrity rules, and the institution’s AI policies.'},
+  {q:'Who has ultimate responsibility for work produced with AI assistance?', a:['The AI tool provider','The person presenting the work','The person who wrote the prompt only'], c:1, e:'The responsible staff member must verify and approve the work.'},
+  {q:'Which item must an AI never invent in a high-risk project report?', a:['A requested heading','A measurement not provided in the notes','A verification checklist'], c:1, e:'The source warns against invented measurements, observations, causes, instructions, policies, actions, or approvals.'}
+];
+
+const storeKey = 'prompt-practice-v1';
+let data = JSON.parse(localStorage.getItem(storeKey) || 'null') || {
+  name: '',
+  email: '',
+  done: [],
+  current: 0,
+  answers: {},
+  score: null,
+  submitted: false
+};
+let questionIndex = 0;
+
+function save() {
+  localStorage.setItem(storeKey, JSON.stringify(data));
+  renderNav();
+  renderProgress();
+}
+
+function renderNav() {
+  const nav = document.getElementById('navlist');
+  nav.innerHTML = '';
+  const items = [
+    ...lessons.map((x, i) => ({ label: x.title, n: i })),
+    { label: '10-question quiz', n: 3 }
+  ];
+
+  items.forEach(it => {
+    const b = document.createElement('button');
+    b.className = 'navitem' + (data.current === it.n ? ' active' : '') + (data.done.includes(it.n) ? ' done' : '');
+    b.innerHTML = `
+      <span class="navnum">${data.done.includes(it.n) ? '✓' : (it.n === 3 ? 'Q' : it.n + 1)}</span>
+      <span>${it.label}</span>
+    `;
+    b.onclick = () => {
+      data.current = it.n;
+      save();
+      render();
+    };
+    nav.appendChild(b);
+  });
+}
+
+function renderProgress() {
+  const pct = Math.round((data.done.length / 4) * 100);
+  document.getElementById('progressText').textContent = pct + '%';
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function markDone(n) {
+  if (!data.done.includes(n)) data.done.push(n);
+  save();
+}
+
+function render() {
+  renderNav();
+  renderProgress();
+  const el = document.getElementById('lesson');
+  el.classList.remove('content-enter');
+  void el.offsetWidth; // trigger reflow
+  el.classList.add('content-enter');
+
+  const n = data.current;
+  if (n < 3) {
+    const l = lessons[n];
+    el.innerHTML = `
+      <div class="kicker">${l.label} · ${n + 1} of 3</div>
+      <h2>${l.title}</h2>
+      <p class="lead">${l.lead}</p>
+      <div class="lessonbody">${l.body}</div>
+      <div class="actions">
+        <span class="kicker" style="color:var(--muted)">Workplace AI Lesson</span>
+        <button class="btn" id="continue">
+          ${n === 2 ? 'Continue to quiz' : 'Mark lesson complete & continue'} →
+        </button>
+      </div>
+    `;
+
+    // Interactive checklist tags in lesson 1
+    if (n === 0) {
+      setupChecklistTags();
+    }
+
+    document.getElementById('continue').onclick = () => {
+      markDone(n);
+      data.current = n + 1;
+      save();
+      render();
+    };
+  } else {
+    renderQuiz();
+  }
+}
+
+function setupChecklistTags() {
+  const tips = {
+    task: "<b>Task:</b> Define the exact deliverable, core objective, and target recipient.",
+    context: "<b>Context:</b> Supply background information, verified facts, and relevant background notes.",
+    constraints: "<b>Constraints:</b> Set explicit guardrails on what the AI must NOT assume, invent, or extrapolate.",
+    format: "<b>Format:</b> Dictate structural headings, bullet points, tone, and presentation style.",
+    verification: "<b>Verification:</b> Request citations, confidence factors, or a cross-reference checklist for human review."
+  };
+
+  const tags = document.querySelectorAll('#checklistTags .tag');
+  const tipBox = document.getElementById('tagTip');
+  tags.forEach(t => {
+    t.onclick = () => {
+      tags.forEach(x => x.classList.remove('selected'));
+      t.classList.add('selected');
+      const part = t.getAttribute('data-part');
+      tipBox.innerHTML = tips[part] || '';
+      tipBox.classList.add('show');
+    };
+  });
+}
+
+function copyPrompt(btn) {
+  const text = document.getElementById('strongerPromptText').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.color = 'var(--teal-600)';
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.color = '';
+    }, 1800);
+  });
+}
+
+function renderQuiz() {
+  const el = document.getElementById('lesson');
+  el.classList.remove('content-enter');
+  void el.offsetWidth;
+  el.classList.add('content-enter');
+
+  if (!data.name || !data.email) {
+    el.innerHTML = `
+      <div class="kicker">Knowledge check · 10 questions</div>
+      <h2>First, tell us who’s learning</h2>
+      <p class="lead">Your name and email identify your result in the admin review inbox.</p>
+      <div class="welcomeform">
+        <div class="field">
+          <label for="studentName">Full Name</label>
+          <input id="studentName" required autocomplete="name" value="${escapeHtml(data.name)}" placeholder="e.g. Alex Morgan">
+        </div>
+        <div class="field">
+          <label for="studentEmail">Work Email</label>
+          <input id="studentEmail" required type="email" autocomplete="email" value="${escapeHtml(data.email)}" placeholder="alex@company.com">
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn secondary" id="backLesson">← Back to lesson</button>
+        <button class="btn" id="startQuiz">Start quiz →</button>
+      </div>
+    `;
+
+    document.getElementById('backLesson').onclick = () => {
+      data.current = 2;
+      save();
+      render();
+    };
+
+    document.getElementById('startQuiz').onclick = () => {
+      const nm = document.getElementById('studentName').value.trim();
+      const em = document.getElementById('studentEmail').value.trim();
+      if (!nm || !document.getElementById('studentEmail').validity.valid) {
+        toast('Please enter your name and a valid work email.');
+        return;
+      }
+      data.name = nm;
+      data.email = em;
+      save();
+      renderQuiz();
+    };
+    return;
+  }
+
+  if (data.score !== null) {
+    const pct = Math.round((data.score / 10) * 100);
+    const circumference = 2 * Math.PI * 52;
+    const offset = circumference - (pct / 100) * circumference;
+
+    el.innerHTML = `
+      <div class="endbox">
+        <div class="kicker">Course Assessment Complete</div>
+        <h2>Congratulations, ${escapeHtml(data.name.split(' ')[0])}!</h2>
+        
+        <div class="score-circle-wrap">
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#026078" />
+                <stop offset="50%" stop-color="#027a75" />
+                <stop offset="100%" stop-color="#0cb8a7" />
+              </linearGradient>
+            </defs>
+            <circle class="score-circle-bg" cx="60" cy="60" r="52"></circle>
+            <circle class="score-circle-bar" id="scoreBar" cx="60" cy="60" r="52" 
+                    stroke-dasharray="${circumference}" 
+                    stroke-dashoffset="${circumference}"></circle>
+          </svg>
+          <div class="score-number">${data.score}<small>/10</small></div>
+        </div>
+
+        <p class="lead">Review your responses and revisit any lesson you want to reinforce.</p>
+        
+        <div class="result-card">
+          <div style="font-weight:700;font-size:15px;margin-bottom:6px">Submission Status</div>
+          <p style="margin:0 0 12px;font-size:14px;color:var(--muted)">
+            ${data.submitted ? '✓ Your assessment result is recorded in the admin review inbox.' : '⚠ Your result could not be synced to the course server. You can retry below.'}
+          </p>
+          ${!data.submitted ? '<button class="btn secondary" id="retrySend" style="padding:8px 16px;font-size:13px">Retry sync</button>' : ''}
+        </div>
+
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <button class="btn secondary" id="reviewAnswers">Review answers</button>
+          <button class="btn" id="retake">Retake assessment</button>
+        </div>
+      </div>
+    `;
+
+    setTimeout(() => {
+      const bar = document.getElementById('scoreBar');
+      if (bar) bar.style.strokeDashoffset = offset;
+    }, 100);
+
+    triggerConfetti();
+
+    document.getElementById('reviewAnswers').onclick = () => {
+      questionIndex = 0;
+      renderReview();
+    };
+
+    const retry = document.getElementById('retrySend');
+    if (retry) retry.onclick = retrySubmission;
+
+    document.getElementById('retake').onclick = () => {
+      data.score = null;
+      data.answers = {};
+      data.submitted = false;
+      data.done = data.done.filter(x => x !== 3);
+      data.current = 3;
+      questionIndex = 0;
+      save();
+      renderQuiz();
+    };
+    return;
+  }
+
+  questionIndex = Math.min(questionIndex, questions.length - 1);
+  const q = questions[questionIndex];
+  const chosen = data.answers[questionIndex];
+
+  el.innerHTML = `
+    <div class="kicker">Knowledge check · 10 questions</div>
+    <h2>Question ${questionIndex + 1} of ${questions.length}</h2>
+    
+    <div class="quizprogress">
+      <span>Progress</span>
+      <span>${Math.round(((questionIndex + 1) / questions.length) * 100)}%</span>
+    </div>
+    <div class="qbar">
+      <i style="width:${((questionIndex) / questions.length) * 100}%"></i>
+    </div>
+
+    <div class="question">${q.q}</div>
+
+    <div class="answers">
+      ${q.a.map((v, i) => `
+        <label class="answer ${chosen === i ? 'selected' : ''}" data-idx="${i}">
+          <div class="radio-dot"></div>
+          <span class="text">${v}</span>
+          <span class="shortcut-badge">${i + 1}</span>
+        </label>
+      `).join('')}
+    </div>
+
+    <div class="quizbottom">
+      <button class="btn secondary" id="prev" ${questionIndex === 0 ? 'disabled' : ''}>← Previous</button>
+      <button class="btn" id="next">
+        ${questionIndex === 9 ? 'Submit assessment' : 'Next question →'}
+      </button>
+    </div>
+  `;
+
+  // Select option via click
+  el.querySelectorAll('.answer').forEach(ans => {
+    ans.onclick = () => {
+      const idx = Number(ans.getAttribute('data-idx'));
+      data.answers[questionIndex] = idx;
+      save();
+      renderQuiz();
+    };
+  });
+
+  document.getElementById('prev').onclick = () => {
+    if (questionIndex > 0) {
+      questionIndex--;
+      renderQuiz();
+    }
+  };
+
+  document.getElementById('next').onclick = () => {
+    if (data.answers[questionIndex] === undefined) {
+      toast('Please choose an answer to continue.');
+      return;
+    }
+    if (questionIndex < 9) {
+      questionIndex++;
+      renderQuiz();
+    } else {
+      submitQuiz();
+    }
+  };
+}
+
+// Keyboard shortcuts for snappy interactivity
+window.onkeydown = (e) => {
+  if (data.current === 3 && data.score === null && data.name && data.email) {
+    if (['1', '2', '3'].includes(e.key)) {
+      const idx = Number(e.key) - 1;
+      const q = questions[questionIndex];
+      if (q && q.a[idx] !== undefined) {
+        data.answers[questionIndex] = idx;
+        save();
+        renderQuiz();
+      }
+    } else if (e.key === 'Enter') {
+      const nextBtn = document.getElementById('next');
+      if (nextBtn) nextBtn.click();
+    } else if (e.key === 'ArrowLeft') {
+      const prevBtn = document.getElementById('prev');
+      if (prevBtn && !prevBtn.disabled) prevBtn.click();
+    }
+  }
+};
+
+function renderReview() {
+  const el = document.getElementById('lesson');
+  el.innerHTML = `
+    <div class="kicker">Answer review · 10 questions</div>
+    <h2>Review your responses</h2>
+    <div style="display:flex;flex-direction:column;gap:14px;margin:24px 0">
+      ${questions.map((q, i) => `
+        <div style="padding:16px 20px;border-radius:12px;background:${data.answers[i] === q.c ? '#f0faf6' : '#fff7f5'};border:1px solid ${data.answers[i] === q.c ? '#cbeadb' : '#f7dcd6'}">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <b>${i + 1}. ${q.q}</b>
+            <span style="font-size:12px;font-weight:700;color:${data.answers[i] === q.c ? 'var(--teal-700)' : 'var(--red)'}">
+              ${data.answers[i] === q.c ? '✓ Correct' : '✗ Review needed'}
+            </span>
+          </div>
+          <p style="margin:4px 0 0;font-size:14px;color:var(--ink-secondary)">
+            <b>Your answer:</b> ${escapeHtml(q.a[data.answers[i]] || 'Not answered')}<br>
+            <span style="color:var(--muted)">${q.e}</span>
+          </p>
+        </div>
+      `).join('')}
+    </div>
+    <div class="actions">
+      <span></span>
+      <button class="btn" id="resultBtn">Back to result</button>
+    </div>
+  `;
+  document.getElementById('resultBtn').onclick = renderQuiz;
+}
+
+async function retrySubmission() {
+  const b = document.getElementById('retrySend');
+  if (b) {
+    b.disabled = true;
+    b.textContent = 'Saving...';
+  }
+  try {
+    const res = await fetch('/api/submissions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+        score: data.score,
+        total: 10,
+        lessonsCompleted: data.done.filter(x => x < 3).length,
+        completedAt: new Date().toISOString(),
+        answers: data.answers
+      })
+    });
+    if (!res.ok) throw Error();
+    const saved = await res.json();
+    data.score = saved.score;
+    data.submitted = true;
+    save();
+    renderQuiz();
+    toast('✓ Results synced successfully');
+  } catch {
+    if (b) {
+      b.disabled = false;
+      b.textContent = 'Retry sync';
+    }
+    toast('Unable to connect to course server. Try again shortly.');
+  }
+}
+
+async function submitQuiz() {
+  data.score = questions.reduce((s, q, i) => s + (data.answers[i] === q.c ? 1 : 0), 0);
+  data.current = 3;
+  markDone(3);
+  save();
+  renderQuiz();
+  await retrySubmission();
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function toast(s) {
+  const t = document.getElementById('toast');
+  t.innerHTML = s;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// Lightweight Celebration Particles
+function triggerConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+  const colors = ['#027a75', '#00b49f', '#0cb8a7', '#d2f274', '#026078'];
+
+  for (let i = 0; i < 70; i++) {
+    particles.push({
+      x: canvas.width * 0.5,
+      y: canvas.height * 0.4,
+      vx: (Math.random() - 0.5) * 14,
+      vy: (Math.random() - 0.8) * 16,
+      size: Math.random() * 6 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      alpha: 1,
+      rotation: Math.random() * 360,
+      vRot: (Math.random() - 0.5) * 10
+    });
+  }
+
+  let frames = 0;
+  function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let alive = false;
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.4; // gravity
+      p.vx *= 0.98;
+      p.alpha -= 0.012;
+      p.rotation += p.vRot;
+
+      if (p.alpha > 0) {
+        alive = true;
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
+        ctx.restore();
+      }
+    });
+
+    frames++;
+    if (alive && frames < 120) {
+      requestAnimationFrame(update);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  update();
+}
+
+render();
+</script>
+</body>
+</html>
