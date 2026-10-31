@@ -586,6 +586,44 @@ button {
   box-shadow: none !important;
 }
 
+/* REGISTRATION FORM ACTIONS */
+.welcomeform .actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  width: 100%;
+}
+
+#backLesson {
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  white-space: nowrap;
+}
+
+#startQuiz {
+  padding: 12px 22px;
+  font-size: 14.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
 /* QUIZ */
 .quizprogress {
   display: flex;
@@ -872,14 +910,46 @@ button {
   }
 }
 
+@media (max-width: 600px) {
+  .welcomeform {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .welcomeform .field input {
+    font-size: 16px;
+    padding: 13px 14px;
+  }
+  .welcomeform .actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+  #startQuiz {
+    width: 100%;
+    min-height: 48px;
+    font-size: 15px;
+    padding: 13px 18px;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
+  }
+  #backLesson {
+    width: 100%;
+    min-height: 44px;
+    font-size: 14px;
+    padding: 12px 16px;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
 @media (max-width: 520px) {
   .shell {
     padding: 16px 14px 48px;
   }
   .navlist {
-    grid-template-columns: 1fr;
-  }
-  .welcomeform {
     grid-template-columns: 1fr;
   }
   .wide {
@@ -1342,21 +1412,18 @@ function renderQuiz() {
     el.innerHTML = `
       <div class="kicker">Candidate Verification · Required Before Questions</div>
       <h2>Candidate Registration</h2>
-      <p class="lead">You must submit your full name and verified work email address before you can view and answer assessment questions.</p>
+      <p class="lead">You must submit your ID number and verified work email address before you can view and answer assessment questions.</p>
       
       <div class="welcomeform" style="max-width:500px">
         <div class="field">
-          <label for="studentName">Full Name *</label>
-          <input id="studentName" required autocomplete="name" value="${escapeHtml(data.name)}" placeholder="e.g. Alex Morgan" minlength="2">
-          <span id="nameErr" style="color:var(--red);font-size:12.5px;display:none;margin-top:3px;font-weight:600">Please enter your full name (minimum 2 characters).</span>
+          <label for="studentName">ID Number *</label>
+          <input id="studentName" required autocomplete="off" value="${escapeHtml(data.name)}" placeholder="e.g. ID-84920" minlength="2">
+          <span id="nameErr" style="color:var(--red);font-size:12.5px;display:none;margin-top:3px;font-weight:600">Please enter your ID number (minimum 2 characters).</span>
         </div>
         <div class="field">
           <label for="studentEmail">Work Email Address *</label>
           <input id="studentEmail" required type="email" autocomplete="email" value="${escapeHtml(data.email)}" placeholder="alex@company.com">
           <span id="emailErr" style="color:var(--red);font-size:12.5px;display:none;margin-top:3px;font-weight:600">Please enter a valid work email address.</span>
-        </div>
-        <div style="background:#f0faf8;border:1px solid #cbeadb;border-radius:12px;padding:12px 16px;font-size:13px;color:var(--teal-800);margin:8px 0 16px;line-height:1.5">
-          🔒 <b>Assessment Requirement:</b> Submitting your candidate credentials registers your session with the course server. All questions will unlock immediately upon submission.
         </div>
         <div class="actions">
           <button class="btn secondary" id="backLesson">← Back to lesson</button>
@@ -1507,7 +1574,7 @@ function renderQuiz() {
   el.innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center;background:#f0faf8;border:1px solid #cbeadb;border-radius:10px;padding:9px 15px;margin-bottom:20px;font-size:13.5px">
       <div>
-        <span style="color:var(--muted)">Registered Candidate:</span> <b>${escapeHtml(data.name)}</b>
+        <span style="color:var(--muted)">Candidate ID:</span> <b>${escapeHtml(data.name)}</b>
         <span style="color:var(--teal-700);margin-left:6px;font-size:12.5px">${escapeHtml(data.email)}</span>
       </div>
       <button id="changeCandidateBtn" style="background:transparent;border:none;color:var(--teal-700);font-weight:700;cursor:pointer;font-size:12.5px;text-decoration:underline">Change</button>
