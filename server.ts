@@ -3,6 +3,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
+import { db } from './src/firebase.ts';
+import { questions, calculateScore } from './src/questions.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,7 +23,6 @@ const host = '0.0.0.0';
 const adminKey = process.env.AI_COURSE_ADMIN_KEY || 'use-a-random-secret-of-at-least-32-characters';
 const dataDir = process.env.DATA_DIR || path.join(root, 'storage');
 const database = path.join(dataDir, 'submissions.json');
-const answerKey = [0, 0, 0, 1, 0, 1, 1, 0, 1, 1];
 const rateLimits = new Map<string, { start: number; count: number }>();
 
 fs.mkdirSync(dataDir, { recursive: true });
@@ -87,8 +89,36 @@ app.get('/healthz', (_req, res) => {
   res.json({ ok: true });
 });
 
+// Candidate registration prior to answering questions
+app.post('/api/register', async (req, res) => {
+  const { name: rawName, email: rawEmail } = req.body || {};
+  const name = String(rawName || '').trim();
+  const email = String(rawEmail || '').trim().toLowerCase();
+  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  if (!name || name.length < 2 || name.length > 120 || !validEmail || email.length > 254) {
+    return res.status(400).json({ error: 'Please provide a valid full name and email address.' });
+  }
+
+  const regRecord = {
+    id: crypto.randomUUID(),
+    name,
+    email,
+    registeredAt: new Date().toISOString()
+  };
+
+  try {
+    const docRef = doc(db, 'registrations', regRecord.id);
+    await setDoc(docRef, regRecord);
+  } catch (err: any) {
+    // Graceful offline fallback
+  }
+
+  return res.status(200).json({ registered: true, name, email });
+});
+
 // Submit quiz answers
-app.post('/api/submissions', (req, res) => {
+app.post('/api/submissions', async (req, res) => {
   if (isRateLimited(req, 'student-submit', 60, 10 * 60 * 1000)) {
     res.setHeader('Retry-After', '600');
     return res.status(429).json({ error: 'Too many submissions. Try again later.' });
@@ -97,13 +127,24 @@ app.post('/api/submissions', (req, res) => {
   const { name: rawName, email: rawEmail, answers, lessonsCompleted: rawLessons } = req.body || {};
   const name = String(rawName || '').trim();
   const email = String(rawEmail || '').trim().toLowerCase();
-  const lessonsCompleted = Number(rawLessons);
   const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const lessonsCompleted = Number(rawLessons);
+  const total = questions.length;
   const validAnswers =
     answers &&
     typeof answers === 'object' &&
-    Array.from({ length: 10 }, (_, i) => Number.isInteger(answers[i]) && answers[i] >= 0 && answers[i] <= 2).every(Boolean) &&
-    Object.keys(answers).length === 10;
+    Array.from({ length: total }, (_, i) => {
+      const ans = answers[i];
+      if (questions[i].multi) {
+        return (
+          Array.isArray(ans) &&
+          ans.length > 0 &&
+          ans.every(v => Number.isInteger(v) && v >= 0 && v < questions[i].a.length)
+        );
+      }
+      return Number.isInteger(ans) && ans >= 0 && ans < questions[i].a.length;
+    }).every(Boolean) &&
+    Object.keys(answers).length === total;
 
   if (
     !name ||
@@ -118,30 +159,42 @@ app.post('/api/submissions', (req, res) => {
     return res.status(400).json({ error: 'Invalid course result' });
   }
 
-  const score = answerKey.reduce((sum, correct, i) => sum + (answers[i] === correct ? 1 : 0), 0);
-  const records = readSubmissions();
-  records.push({
+  const score = calculateScore(answers);
+  const newRecord = {
     id: crypto.randomUUID(),
     name,
     email,
     score,
-    total: 10,
+    total,
     lessonsCompleted,
     completedAt: new Date().toISOString(),
-    answers: Object.fromEntries(Array.from({ length: 10 }, (_, i) => [i, answers[i]])),
-  });
+    answers: Object.fromEntries(Array.from({ length: total }, (_, i) => [i, answers[i]])),
+  };
 
+  // 1. Cloud Firestore persistence (works on Vercel, Render, Cloud Run)
+  let firestoreSaved = false;
   try {
-    writeSubmissions(records);
-    return res.status(201).json({ saved: true, score });
-  } catch (error: any) {
-    console.error('Could not save learner submission:', error.message);
-    return res.status(500).json({ error: 'Could not save submission' });
+    const docRef = doc(db, 'submissions', newRecord.id);
+    await setDoc(docRef, newRecord);
+    firestoreSaved = true;
+  } catch (cloudErr: any) {
+    console.warn('Firestore cloud write notice:', cloudErr.message);
   }
+
+  // 2. Local disk cache (when available on non-serverless filesystems)
+  try {
+    const records = readSubmissions();
+    records.push(newRecord);
+    writeSubmissions(records);
+  } catch (fsErr: any) {
+    // In serverless environments like Vercel with read-only filesystems, local write is ignored
+  }
+
+  return res.status(201).json({ saved: true, score, cloudSynced: firestoreSaved });
 });
 
 // Admin review submissions endpoint
-app.get('/api/submissions', (req, res) => {
+app.get('/api/submissions', async (req, res) => {
   if (isRateLimited(req, 'admin-review', 60, 60 * 1000)) {
     res.setHeader('Retry-After', '60');
     return res.status(429).json({ error: 'Too many requests. Try again shortly.' });
@@ -161,7 +214,31 @@ app.get('/api/submissions', (req, res) => {
   }
 
   try {
-    const records = readSubmissions().sort((a, b) => b.completedAt.localeCompare(a.completedAt));
+    // Read from Cloud Firestore first
+    const itemsMap = new Map<string, any>();
+
+    try {
+      const snap = await getDocs(collection(db, 'submissions'));
+      snap.forEach(d => {
+        const dData = d.data();
+        if (dData && dData.id) itemsMap.set(dData.id, dData);
+      });
+    } catch (firestoreReadErr: any) {
+      console.warn('Firestore read notice:', firestoreReadErr.message);
+    }
+
+    // Merge with local records
+    const localRecords = readSubmissions();
+    for (const rec of localRecords) {
+      if (rec && rec.id && !itemsMap.has(rec.id)) {
+        itemsMap.set(rec.id, rec);
+      }
+    }
+
+    const records = Array.from(itemsMap.values()).sort((a, b) => 
+      (b.completedAt || '').localeCompare(a.completedAt || '')
+    );
+
     return res.status(200).json(records);
   } catch (error: any) {
     console.error('Could not read learner submissions:', error.message);

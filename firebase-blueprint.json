@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "entities": {
+    "submission": {
+      "title": "Submission",
+      "description": "Learner assessment submission record",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the submission"
+        },
+        "name": {
+          "type": "string",
+          "description": "Learner full name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Learner email address"
+        },
+        "score": {
+          "type": "number",
+          "description": "Score achieved in the assessment (0-20)"
+        },
+        "total": {
+          "type": "number",
+          "description": "Total number of quiz questions (20)"
+        },
+        "lessonsCompleted": {
+          "type": "number",
+          "description": "Number of lessons completed by the learner (0-3)"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp when the assessment was completed"
+        },
+        "answers": {
+          "type": "object",
+          "description": "Map of question indices to selected answer options"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "score",
+        "total",
+        "lessonsCompleted",
+        "completedAt",
+        "answers"
+      ]
+    },
+    "registration": {
+      "title": "Registration",
+      "description": "Learner registration submitted prior to taking the assessment",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique registration ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Learner full name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Learner email address"
+        },
+        "registeredAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Registration ISO timestamp"
+        }
+      },
+      "required": ["id", "name", "email", "registeredAt"]
+    }
+  },
+  "firestore": {
+    "/submissions/{submissionId}": {
+      "schema": "#entities/submission",
+      "description": "Learner assessment submissions and quiz results"
+    },
+    "/registrations/{registrationId}": {
+      "schema": "#entities/registration",
+      "description": "Candidate registrations prior to taking the assessment"
+    }
+  }
+}
