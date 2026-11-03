@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<script src="/html2pdf.bundle.min.js"></script>
 
 <style>
 :root {
@@ -638,6 +639,210 @@ tr:hover td {
     align-items: stretch;
   }
 }
+
+/* VIEW TABS */
+.view-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 22px 0 16px;
+  border-bottom: 2px solid var(--line);
+  padding-bottom: 0;
+}
+.view-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 10px 18px;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: -2px;
+  transition: all 0.2s ease;
+  border-radius: 8px 8px 0 0;
+}
+.view-tab:hover {
+  color: var(--ink);
+  background: rgba(2, 96, 120, 0.04);
+}
+.view-tab.active {
+  color: var(--teal-700);
+  border-bottom-color: var(--teal-600);
+  background: rgba(2, 96, 120, 0.06);
+}
+.tab-badge {
+  font-size: 11.5px;
+  padding: 2px 7px;
+  border-radius: 12px;
+  background: #e1e7e2;
+  color: var(--ink-secondary);
+  font-weight: 800;
+}
+.view-tab.active .tab-badge {
+  background: var(--teal-600);
+  color: #fff;
+}
+
+/* TRIALS BADGE */
+.trials-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.trials-badge.single {
+  background: #f0f4f1;
+  color: var(--ink-secondary);
+}
+.trials-badge.multi {
+  background: #e2f5f1;
+  color: var(--teal-700);
+  border: 1px solid #b7e8de;
+}
+
+/* ACTION BUTTONS */
+.pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #026078;
+  color: #ffffff;
+  border: none;
+  padding: 7px 13px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.pdf-btn:hover {
+  background: #024b52;
+  box-shadow: 0 2px 6px rgba(2, 75, 82, 0.25);
+  transform: translateY(-1px);
+}
+.pdf-btn.secondary {
+  background: #f0faf8;
+  color: #026078;
+  border: 1px solid #bceae1;
+}
+.pdf-btn.secondary:hover {
+  background: #e2f5f1;
+  color: #024b52;
+}
+.pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.trials-toggle-btn {
+  background: #ffffff;
+  border: 1.5px solid var(--line-strong);
+  color: var(--ink-secondary);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+.trials-toggle-btn:hover {
+  border-color: var(--teal-600);
+  color: var(--teal-700);
+  background: var(--teal-50);
+}
+.trials-toggle-btn.expanded {
+  background: var(--teal-700);
+  color: #fff;
+  border-color: var(--teal-700);
+}
+
+/* EXPANDABLE STUDENT DRAWER */
+.student-drawer-row {
+  background: #f7faf8;
+  border-bottom: 2px solid var(--line);
+}
+.student-drawer-row > td {
+  padding: 0 !important;
+}
+.drawer-content {
+  padding: 16px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-left: 4px solid var(--teal-600);
+  margin: 6px 0;
+}
+.drawer-title {
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--teal-800);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.trial-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.trial-card-row {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s ease;
+}
+.trial-card-row:hover {
+  border-color: var(--teal-400);
+}
+.trial-meta-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.trial-tag {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #eef3f0;
+  color: var(--ink-secondary);
+}
+.trial-tag.latest {
+  background: #e2f5f1;
+  color: #026078;
+  border: 1px solid #bceae1;
+}
+.trial-date {
+  font-size: 13px;
+  color: var(--muted);
+}
+.trial-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 </style>
 </head>
 <body>
@@ -646,7 +851,6 @@ tr:hover td {
     <div class="brand" onclick="window.location.href='/'" role="button" tabindex="0" title="Go to Home Page" aria-label="Go to Home Page">
       <img src="/assets/aistudio/RIQ_logo_photo_c007b14a.jpg" alt="Course Assessment" class="brandmark-img">
       Course Assessment
-      <span class="admin-badge">Admin Review</span>
     </div>
     <div class="top-actions">
       <a class="studentlink" href="/">Student Course ↗</a>
@@ -656,9 +860,7 @@ tr:hover td {
 
   <!-- LOGIN PANEL -->
   <main class="card" id="loginCard">
-    <div class="kicker">Security Verification</div>
     <h1>Admin Review Portal</h1>
-    <div class="muted">Enter your authorization access key to access course analytics and inspect submissions.</div>
 
     <div class="login-box">
       <div class="field">
@@ -672,9 +874,6 @@ tr:hover td {
         Authenticate & Open Portal
       </button>
       <div class="error-msg" id="loginError"></div>
-      <div class="muted" style="margin-top:10px;font-size:12.5px">
-        Submissions are stored securely in the local backend directory.
-      </div>
     </div>
   </main>
 
@@ -716,6 +915,18 @@ tr:hover td {
       </div>
     </div>
 
+    <!-- VIEW TABS: GROUPED BY STUDENT VS FLAT -->
+    <div class="view-tabs">
+      <button class="view-tab active" id="tabGrouped" type="button">
+        👥 Grouped by Student
+        <span class="tab-badge" id="tabStudentsCount">0</span>
+      </button>
+      <button class="view-tab" id="tabFlat" type="button">
+        📄 All Exam Submissions
+        <span class="tab-badge" id="tabSubmissionsCount">0</span>
+      </button>
+    </div>
+
     <!-- FILTER & SEARCH BAR -->
     <div class="filter-toolbar">
       <div class="search-wrap">
@@ -740,14 +951,14 @@ tr:hover td {
     <div class="table-container">
       <div class="scroll">
         <table>
-          <thead>
+          <thead id="submissionsTableHead">
             <tr>
               <th>ID Number</th>
               <th>Email</th>
-              <th>Score</th>
-              <th>Lesson Modules</th>
-              <th>Submitted At</th>
-              <th style="text-align:right">Audit Details</th>
+              <th>Attempts / Trials</th>
+              <th>Best Score</th>
+              <th>Latest Attempt</th>
+              <th style="text-align:right">Audit & Transcript</th>
             </tr>
           </thead>
           <tbody id="submissionsTableBody"></tbody>
@@ -766,7 +977,10 @@ tr:hover td {
         <h3 id="modalLearnerName" style="margin:4px 0 0;font:800 20px 'Space Grotesk',sans-serif">Alex Morgan</h3>
         <span class="muted" id="modalLearnerMeta" style="font-size:13px"></span>
       </div>
-      <button class="modal-close" id="modalCloseBtn">&times;</button>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="pdf-btn" id="modalPdfBtn" type="button">📥 Download PDF Transcript</button>
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+      </div>
     </div>
     <div class="modal-body" id="modalQuestionsBody"></div>
   </div>
@@ -979,13 +1193,30 @@ function formatCorrectAnswer(q) {
 }
 
 let allSubmissions = [];
-const sessionKeyStorage = 'course_assessment_admin_session_key';
+let currentView = 'grouped'; // 'grouped' | 'flat'
+const expandedDrawers = new Set();
 
+const sessionKeyStorage = 'course_assessment_admin_session_key';
 const $ = id => document.getElementById(id);
 
 function esc(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
+
+// Tab Listeners
+$('tabGrouped').onclick = () => {
+  currentView = 'grouped';
+  $('tabGrouped').classList.add('active');
+  $('tabFlat').classList.remove('active');
+  renderTable();
+};
+
+$('tabFlat').onclick = () => {
+  currentView = 'flat';
+  $('tabFlat').classList.add('active');
+  $('tabGrouped').classList.remove('active');
+  renderTable();
+};
 
 // Password visibility toggle
 $('toggleKeyVisibility').onclick = () => {
@@ -1074,6 +1305,8 @@ function updateKPIs() {
     $('kpiAvgPct').textContent = '0% class average';
     $('kpiPassRate').textContent = '0%';
     $('kpiLessonsDone').textContent = '0%';
+    $('tabStudentsCount').textContent = '0';
+    $('tabSubmissionsCount').textContent = '0';
     return;
   }
 
@@ -1096,9 +1329,57 @@ function updateKPIs() {
   const fullyDoneCount = allSubmissions.filter(item => Number(item.lessonsCompleted) === 3).length;
   const fullyDonePct = Math.round((fullyDoneCount / count) * 100);
   $('kpiLessonsDone').textContent = `${fullyDonePct}%`;
+
+  const grouped = groupSubmissionsByStudent(allSubmissions);
+  $('tabStudentsCount').textContent = grouped.length;
+  $('tabSubmissionsCount').textContent = allSubmissions.length;
 }
 
-function getFilteredAndSorted() {
+function groupSubmissionsByStudent(submissionsList) {
+  const map = new Map();
+
+  submissionsList.forEach(item => {
+    const key = (item.email || '').trim().toLowerCase() || (item.name || '').trim().toLowerCase() || item.id;
+    if (!map.has(key)) {
+      map.set(key, []);
+    }
+    map.get(key).push(item);
+  });
+
+  const students = [];
+  map.forEach((items, key) => {
+    items.sort((a, b) => (a.completedAt || '').localeCompare(b.completedAt || ''));
+
+    const latest = items[items.length - 1];
+    let best = items[0];
+    let maxPct = -1;
+
+    items.forEach(it => {
+      const tot = Number(it.total) || questions.length;
+      const s = Number(it.score) || 0;
+      const pct = tot > 0 ? (s / tot) : 0;
+      if (pct > maxPct) {
+        maxPct = pct;
+        best = it;
+      }
+    });
+
+    students.push({
+      key,
+      name: latest.name || 'Student',
+      email: latest.email || 'No email provided',
+      submissionsCount: items.length,
+      trials: items,
+      latest,
+      best,
+      maxPct
+    });
+  });
+
+  return students;
+}
+
+function getFilteredAndSortedSubmissions() {
   const query = $('searchInput').value.trim().toLowerCase();
   const scoreFilter = $('scoreFilter').value;
   const sortFilter = $('sortFilter').value;
@@ -1122,8 +1403,8 @@ function getFilteredAndSorted() {
   });
 
   list.sort((a, b) => {
-    if (sortFilter === 'newest') return b.completedAt.localeCompare(a.completedAt);
-    if (sortFilter === 'oldest') return a.completedAt.localeCompare(b.completedAt);
+    if (sortFilter === 'newest') return (b.completedAt || '').localeCompare(a.completedAt || '');
+    if (sortFilter === 'oldest') return (a.completedAt || '').localeCompare(b.completedAt || '');
     if (sortFilter === 'highest') return (b.score || 0) - (a.score || 0);
     if (sortFilter === 'lowest') return (a.score || 0) - (b.score || 0);
     return 0;
@@ -1132,62 +1413,224 @@ function getFilteredAndSorted() {
   return list;
 }
 
+window.toggleStudentDrawer = function(key) {
+  if (expandedDrawers.has(key)) {
+    expandedDrawers.delete(key);
+  } else {
+    expandedDrawers.add(key);
+  }
+  renderTable();
+};
+
 function renderTable() {
-  const list = getFilteredAndSorted();
   const tbody = $('submissionsTableBody');
-  $('filterCount').textContent = `Showing ${list.length} of ${allSubmissions.length} submissions`;
+  const thead = $('submissionsTableHead');
   const defaultTotal = questions.length;
 
-  if (list.length === 0) {
-    tbody.innerHTML = `
+  if (currentView === 'grouped') {
+    thead.innerHTML = `
       <tr>
-        <td colspan="6" class="empty-state">
-          <div class="empty-icon">📋</div>
-          <div style="font-weight:700;font-size:16px;color:var(--ink)">No submissions match your filters</div>
-          <div style="font-size:13.5px;color:var(--muted);margin-top:4px">Learner submissions will appear here once they complete the assessment.</div>
-        </td>
+        <th>ID Number</th>
+        <th>Email</th>
+        <th>Attempts / Trials</th>
+        <th>Best Score</th>
+        <th>Latest Attempt</th>
+        <th style="text-align:right">Audit & Transcript</th>
       </tr>
     `;
-    return;
-  }
 
-  tbody.innerHTML = list.map((item) => {
-    const initials = (item.name || 'Student').split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
-    const score = Number(item.score) || 0;
-    const tot = Number(item.total) || defaultTotal;
-    const isPass = tot > 0 ? (score / tot) >= 0.7 : false;
-    const badgeClass = score === tot ? 'high' : (isPass ? 'mid' : 'low');
-    const formattedDate = new Date(item.completedAt).toLocaleString(undefined, {
-      month: 'short', day: 'numeric', year: 'numeric',
-      hour: '2-digit', minute: '2-digit'
-    });
+    const filteredSubmissions = getFilteredAndSortedSubmissions();
+    const students = groupSubmissionsByStudent(filteredSubmissions);
 
-    return `
-      <tr>
-        <td>
-          <div class="learner-cell">
-            <div class="avatar">${initials}</div>
-            <div>
-              <div class="learner-name">${esc(item.name)}</div>
+    $('filterCount').textContent = `Showing ${students.length} student groups (${filteredSubmissions.length} exams)`;
+
+    if (students.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="empty-state">
+            <div class="empty-icon">👥</div>
+            <div style="font-weight:700;font-size:16px;color:var(--ink)">No student groups match your search or filter</div>
+            <div style="font-size:13.5px;color:var(--muted);margin-top:4px">Submissions will automatically group here when learners take the assessment.</div>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = students.map(student => {
+      const initials = student.name.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+      const bestScore = Number(student.best.score) || 0;
+      const bestTot = Number(student.best.total) || defaultTotal;
+      const isPass = bestTot > 0 ? (bestScore / bestTot) >= 0.7 : false;
+      const badgeClass = bestScore === bestTot ? 'high' : (isPass ? 'mid' : 'low');
+
+      const formattedDate = new Date(student.latest.completedAt).toLocaleString(undefined, {
+        month: 'short', day: 'numeric', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+
+      const isExpanded = expandedDrawers.has(student.key);
+      const isMulti = student.submissionsCount > 1;
+
+      let html = `
+        <tr>
+          <td>
+            <div class="learner-cell">
+              <div class="avatar">${initials}</div>
+              <div>
+                <div class="learner-name">${esc(student.name)}</div>
+              </div>
             </div>
-          </div>
-        </td>
-        <td style="color:var(--ink-secondary)">${esc(item.email)}</td>
-        <td>
-          <span class="score-badge ${badgeClass}">
-            ${score}/${tot} ${isPass ? '✓' : '⚠'}
-          </span>
-        </td>
-        <td style="font-weight:600;color:var(--ink-secondary)">${item.lessonsCompleted}/3 completed</td>
-        <td style="color:var(--muted);font-size:13px">${formattedDate}</td>
-        <td style="text-align:right">
-          <button class="audit-btn" onclick="openAuditModal('${item.id}')">
-            View Audit Sheet →
-          </button>
-        </td>
+          </td>
+          <td style="color:var(--ink-secondary)">${esc(student.email)}</td>
+          <td>
+            <span class="trials-badge ${isMulti ? 'multi' : 'single'}">
+              ${isMulti ? '🔄 ' + student.submissionsCount + ' Trials' : '1 Trial'}
+            </span>
+          </td>
+          <td>
+            <span class="score-badge ${badgeClass}">
+              ${bestScore}/${bestTot} ${isPass ? '✓' : '⚠'}
+            </span>
+          </td>
+          <td style="color:var(--muted);font-size:13px">${formattedDate}</td>
+          <td style="text-align:right">
+            <div style="display:inline-flex;align-items:center;gap:8px;justify-content:flex-end">
+              <button class="trials-toggle-btn ${isExpanded ? 'expanded' : ''}" onclick="toggleStudentDrawer('${student.key}')">
+                ${isExpanded ? 'Hide Trials ▲' : `View Trials (${student.submissionsCount}) ▼`}
+              </button>
+              <button class="pdf-btn" onclick="downloadTranscriptPDF('${student.latest.id}', this)" title="Download Latest Attempt PDF">
+                📥 PDF
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+
+      if (isExpanded) {
+        html += `
+          <tr class="student-drawer-row">
+            <td colspan="6">
+              <div class="drawer-content">
+                <div class="drawer-title">
+                  🎓 All Assessment Trials for ${esc(student.name)} (${student.submissionsCount} Total ${student.submissionsCount === 1 ? 'Attempt' : 'Attempts'})
+                </div>
+                <div class="trial-cards-list">
+                  ${student.trials.map((trial, idx) => {
+                    const tScore = Number(trial.score) || 0;
+                    const tTot = Number(trial.total) || defaultTotal;
+                    const tPass = tTot > 0 ? (tScore / tTot) >= 0.7 : false;
+                    const tBadgeClass = tScore === tTot ? 'high' : (tPass ? 'mid' : 'low');
+                    const isLatest = idx === student.trials.length - 1;
+                    const tDate = new Date(trial.completedAt).toLocaleString(undefined, {
+                      month: 'short', day: 'numeric', year: 'numeric',
+                      hour: '2-digit', minute: '2-digit'
+                    });
+
+                    return `
+                      <div class="trial-card-row">
+                        <div class="trial-meta-info">
+                          <span class="trial-tag ${isLatest ? 'latest' : ''}">
+                            Trial #${idx + 1}${isLatest ? ' (Latest)' : ''}
+                          </span>
+                          <span class="score-badge ${tBadgeClass}">
+                            ${tScore}/${tTot} ${tPass ? '✓ Passed' : '⚠ Needs Review'}
+                          </span>
+                          <span class="trial-date">Submitted ${tDate} · ${trial.lessonsCompleted ?? 3}/3 Modules</span>
+                        </div>
+                        <div class="trial-actions">
+                          <button class="audit-btn" onclick="openAuditModal('${trial.id}')">
+                            View Audit Sheet →
+                          </button>
+                          <button class="pdf-btn secondary" onclick="downloadTranscriptPDF('${trial.id}', this)">
+                            📥 Transcript PDF
+                          </button>
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }
+
+      return html;
+    }).join('');
+
+  } else {
+    // FLAT VIEW
+    thead.innerHTML = `
+      <tr>
+        <th>ID Number</th>
+        <th>Email</th>
+        <th>Score</th>
+        <th>Lesson Modules</th>
+        <th>Submitted At</th>
+        <th style="text-align:right">Audit & Transcript</th>
       </tr>
     `;
-  }).join('');
+
+    const list = getFilteredAndSortedSubmissions();
+    $('filterCount').textContent = `Showing ${list.length} of ${allSubmissions.length} total exam submissions`;
+
+    if (list.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="empty-state">
+            <div class="empty-icon">📋</div>
+            <div style="font-weight:700;font-size:16px;color:var(--ink)">No submissions match your filters</div>
+            <div style="font-size:13.5px;color:var(--muted);margin-top:4px">Learner submissions will appear here once they complete the assessment.</div>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = list.map((item) => {
+      const initials = (item.name || 'Student').split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+      const score = Number(item.score) || 0;
+      const tot = Number(item.total) || defaultTotal;
+      const isPass = tot > 0 ? (score / tot) >= 0.7 : false;
+      const badgeClass = score === tot ? 'high' : (isPass ? 'mid' : 'low');
+      const formattedDate = new Date(item.completedAt).toLocaleString(undefined, {
+        month: 'short', day: 'numeric', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+
+      return `
+        <tr>
+          <td>
+            <div class="learner-cell">
+              <div class="avatar">${initials}</div>
+              <div>
+                <div class="learner-name">${esc(item.name)}</div>
+              </div>
+            </div>
+          </td>
+          <td style="color:var(--ink-secondary)">${esc(item.email)}</td>
+          <td>
+            <span class="score-badge ${badgeClass}">
+              ${score}/${tot} ${isPass ? '✓' : '⚠'}
+            </span>
+          </td>
+          <td style="font-weight:600;color:var(--ink-secondary)">${item.lessonsCompleted}/3 completed</td>
+          <td style="color:var(--muted);font-size:13px">${formattedDate}</td>
+          <td style="text-align:right">
+            <div style="display:inline-flex;align-items:center;gap:8px;justify-content:flex-end">
+              <button class="audit-btn" onclick="openAuditModal('${item.id}')">
+                Audit Sheet →
+              </button>
+              <button class="pdf-btn secondary" onclick="downloadTranscriptPDF('${item.id}', this)">
+                📥 PDF
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
 }
 
 $('searchInput').oninput = renderTable;
@@ -1204,6 +1647,10 @@ window.openAuditModal = function(id) {
 
   $('modalLearnerName').textContent = item.name;
   $('modalLearnerMeta').textContent = `${item.email} · Score: ${item.score}/${total} (${pct}%) · Completed ${new Date(item.completedAt).toLocaleString()}`;
+
+  $('modalPdfBtn').onclick = function() {
+    downloadTranscriptPDF(item.id, $('modalPdfBtn'));
+  };
 
   const body = $('modalQuestionsBody');
   body.innerHTML = questions.map((q, i) => {
@@ -1241,6 +1688,133 @@ window.openAuditModal = function(id) {
 $('modalCloseBtn').onclick = () => $('auditModal').classList.remove('show');
 $('auditModal').onclick = (e) => {
   if (e.target === $('auditModal')) $('auditModal').classList.remove('show');
+};
+
+// DOWNLOAD TRANSCRIPT PDF FUNCTION
+window.downloadTranscriptPDF = async function(submissionId, btnElement) {
+  const item = allSubmissions.find(x => x.id === submissionId);
+  if (!item) return;
+
+  const originalText = btnElement ? btnElement.innerHTML : '';
+  if (btnElement) {
+    btnElement.disabled = true;
+    btnElement.innerHTML = '⏳ Generating PDF...';
+  }
+
+  try {
+    const key = (item.email || '').trim().toLowerCase() || (item.name || '').trim().toLowerCase() || item.id;
+    const studentTrials = allSubmissions
+      .filter(x => ((x.email || '').trim().toLowerCase() || (x.name || '').trim().toLowerCase() || x.id) === key)
+      .sort((a, b) => (a.completedAt || '').localeCompare(b.completedAt || ''));
+
+    const trialIndex = studentTrials.findIndex(x => x.id === item.id);
+    const trialNumber = trialIndex >= 0 ? trialIndex + 1 : 1;
+    const totalTrials = studentTrials.length;
+
+    const tot = Number(item.total) || questions.length;
+    const score = Number(item.score) || 0;
+    const pct = tot > 0 ? Math.round((score / tot) * 100) : 0;
+    const isPass = pct >= 70;
+    const formattedDate = new Date(item.completedAt).toLocaleString('en-US', {
+      dateStyle: 'full', timeStyle: 'short'
+    });
+
+    const pdfContainer = document.createElement('div');
+    pdfContainer.style.padding = '24px';
+    pdfContainer.style.fontFamily = "'Plus Jakarta Sans', system-ui, sans-serif";
+    pdfContainer.style.color = '#0d1a16';
+    pdfContainer.style.background = '#ffffff';
+
+    pdfContainer.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #026078;padding-bottom:16px;margin-bottom:20px">
+        <div>
+          <div style="font-size:11px;font-weight:800;letter-spacing:0.08em;color:#026078;text-transform:uppercase">Official Course Transcript & Exam Audit</div>
+          <h1 style="margin:4px 0 0;font-size:24px;font-weight:800;color:#0d1a16">Course Assessment Transcript</h1>
+          <div style="font-size:13px;color:#5e7269;margin-top:2px">Verification Record & Detailed Response Evaluation</div>
+        </div>
+        <div style="text-align:right">
+          <div style="display:inline-block;padding:6px 14px;border-radius:20px;font-weight:800;font-size:13px;background:${isPass ? '#e2f5f1' : '#fff5f3'};color:${isPass ? '#026078' : '#c24134'};border:1.5px solid ${isPass ? '#bceae1' : '#f7dad3'}">
+            ${isPass ? '✓ EXAM PASSED' : '⚠ NEEDS REVIEW'}
+          </div>
+          <div style="font-size:11px;color:#5e7269;margin-top:4px">Attempt #${trialNumber} of ${totalTrials}</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;background:#f5f8f5;padding:16px;border-radius:10px;border:1px solid #e1e7e2">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#5e7269;text-transform:uppercase">ID Number / Candidate</div>
+          <div style="font-size:16px;font-weight:800;color:#0d1a16">${esc(item.name)}</div>
+          <div style="font-size:13px;color:#2f4039">${esc(item.email)}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;font-weight:700;color:#5e7269;text-transform:uppercase">Assessment Results</div>
+          <div style="font-size:20px;font-weight:800;color:${isPass ? '#026078' : '#c24134'}">${score} / ${tot} points (${pct}%)</div>
+          <div style="font-size:12px;color:#5e7269">Completed on ${formattedDate} · ${item.lessonsCompleted ?? 3}/3 Modules Finished</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:15px;font-weight:800;color:#02363b;margin:20px 0 12px;border-bottom:1px solid #e1e7e2;padding-bottom:6px">
+        Question-by-Question Evaluation Audit (${tot} Questions)
+      </h3>
+
+      <div style="display:flex;flex-direction:column;gap:10px">
+        ${questions.map((q, idx) => {
+          const ans = item.answers?.[idx];
+          const correct = isQuestionCorrect(q, ans);
+          const chosenText = formatAnswer(q, ans);
+          const correctText = formatCorrectAnswer(q);
+
+          return `
+            <div style="padding:10px 14px;border-radius:8px;border:1px solid ${correct ? '#cdeee0' : '#f7dad3'};background:${correct ? '#f4fbf8' : '#fff8f6'};page-break-inside:avoid">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <span style="font-size:11px;font-weight:800;color:#5e7269;text-transform:uppercase">Q${idx + 1} Assessment</span>
+                <span style="font-size:11px;font-weight:800;color:${correct ? '#125e47' : '#c24134'}">
+                  ${correct ? '✓ Correct' : '✗ Incorrect'}
+                </span>
+              </div>
+              <div style="font-size:13px;font-weight:700;color:#0d1a16;margin-bottom:6px">${esc(q.q)}</div>
+              <div style="font-size:12px;color:#2f4039;line-height:1.4">
+                <b>Learner Answer:</b> ${esc(chosenText)}
+                ${!correct ? `<br><b style="color:#125e47">Correct Answer:</b> ${esc(correctText)}` : ''}
+              </div>
+              <div style="margin-top:6px;font-size:11.5px;color:#5e7269;background:rgba(0,0,0,0.02);padding:6px 10px;border-radius:6px">
+                <b>Explanation:</b> ${esc(q.e)}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+
+      <div style="margin-top:24px;padding-top:12px;border-top:1px dashed #c8d4cb;display:flex;justify-content:space-between;font-size:11px;color:#5e7269">
+        <span>Verified Assessment Transcript · Submission ID: ${item.id}</span>
+        <span>Generated on ${new Date().toLocaleDateString()}</span>
+      </div>
+    `;
+
+    if (window.html2pdf) {
+      const opt = {
+        margin: [8, 8, 8, 8],
+        filename: `Transcript_${item.name.replace(/[^a-zA-Z0-9_-]/g, '_')}_Trial_${trialNumber}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      await window.html2pdf().set(opt).from(pdfContainer).save();
+    } else {
+      const win = window.open('', '_blank');
+      win.document.write(`<html><head><title>Transcript - ${esc(item.name)}</title></head><body>${pdfContainer.innerHTML}</body></html>`);
+      win.document.close();
+      win.print();
+    }
+  } catch (err) {
+    console.error('PDF export error:', err);
+    alert('Failed to generate PDF transcript. Please try again.');
+  } finally {
+    if (btnElement) {
+      btnElement.disabled = false;
+      btnElement.innerHTML = originalText;
+    }
+  }
 };
 
 // CSV EXPORT
