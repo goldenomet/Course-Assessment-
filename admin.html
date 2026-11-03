@@ -84,6 +84,13 @@ button {
   gap: 13px;
   font: 800 18px 'Space Grotesk', sans-serif;
   letter-spacing: -0.02em;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.brand:hover {
+  opacity: 0.85;
 }
 
 .brandmark-img {
@@ -93,6 +100,7 @@ button {
   border-radius: 10px;
   border: 1px solid var(--line);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
 }
 
 .admin-badge {
@@ -635,7 +643,7 @@ tr:hover td {
 <body>
 <div class="shell">
   <header class="topbar">
-    <div class="brand">
+    <div class="brand" onclick="window.location.href='/'" role="button" tabindex="0" title="Go to Home Page" aria-label="Go to Home Page">
       <img src="/assets/aistudio/RIQ_logo_photo_c007b14a.jpg" alt="Course Assessment" class="brandmark-img">
       Course Assessment
       <span class="admin-badge">Admin Review</span>

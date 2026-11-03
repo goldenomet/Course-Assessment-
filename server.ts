@@ -138,11 +138,10 @@ app.post('/api/submissions', async (req, res) => {
       if (questions[i].multi) {
         return (
           Array.isArray(ans) &&
-          ans.length > 0 &&
           ans.every(v => Number.isInteger(v) && v >= 0 && v < questions[i].a.length)
         );
       }
-      return Number.isInteger(ans) && ans >= 0 && ans < questions[i].a.length;
+      return (Number.isInteger(ans) && ans >= 0 && ans < questions[i].a.length) || ans === -1;
     }).every(Boolean) &&
     Object.keys(answers).length === total;
 

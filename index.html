@@ -89,6 +89,23 @@ button {
   font: 800 18px 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
   letter-spacing: -0.02em;
   color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand:hover {
+  opacity: 0.85;
+}
+
+.brand:active {
+  transform: scale(0.98);
+}
+
+.brand:focus-visible {
+  outline: 2px solid var(--teal-600);
+  outline-offset: 4px;
+  border-radius: 8px;
 }
 
 .brandmark-img {
@@ -98,11 +115,13 @@ button {
   border-radius: 10px;
   border: 1px solid var(--line);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  cursor: pointer;
 }
 
 .brand:hover .brandmark-img {
   transform: scale(1.05) rotate(1deg);
+  box-shadow: 0 4px 12px rgba(2, 96, 120, 0.18);
 }
 
 .topright {
@@ -624,6 +643,63 @@ button {
   letter-spacing: -0.01em;
 }
 
+/* TIMER & RESHUFFLE */
+.timer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.timer-badge.normal {
+  background: #f0faf8;
+  border: 1.5px solid #a7dfd7;
+  color: #026078;
+}
+
+.timer-badge.warning {
+  background: #fffbeb;
+  border: 1.5px solid #fde68a;
+  color: #b45309;
+}
+
+.timer-badge.critical {
+  background: #fef2f2;
+  border: 1.5px solid #fca5a5;
+  color: #dc2626;
+  animation: timerAlertPulse 1s infinite alternate ease-in-out;
+}
+
+@keyframes timerAlertPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.35); }
+  100% { transform: scale(1.04); box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+}
+
+.timer-time {
+  font-size: 13.5px;
+  font-weight: 800;
+}
+
+.reshuffle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(2, 122, 117, 0.08);
+  border: 1px solid rgba(2, 122, 117, 0.18);
+  color: var(--teal-800);
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
 /* QUIZ */
 .quizprogress {
   display: flex;
@@ -732,14 +808,7 @@ button {
 }
 
 .shortcut-badge {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--muted);
-  background: #f0f4f1;
-  border-radius: 6px;
-  padding: 2px 7px;
-  border: 1px solid #dbe2dd;
-  letter-spacing: 0.02em;
+  display: none !important;
 }
 
 .quizbottom {
@@ -963,7 +1032,7 @@ button {
 
 <div class="shell" id="app">
   <header class="topbar">
-    <div class="brand">
+    <div class="brand" id="brandHome" role="button" tabindex="0" title="Go back to home page" aria-label="Go back to home page">
       <img src="/assets/aistudio/RIQ_logo_photo_c007b14a.jpg" alt="Course Assessment" class="brandmark-img">
       Course Assessment
     </div>
@@ -1283,9 +1352,145 @@ let data = JSON.parse(localStorage.getItem(storeKey) || 'null') || {
   current: 0,
   answers: {},
   score: null,
-  submitted: false
+  submitted: false,
+  shuffledQuestions: null,
+  timerStartedAt: null,
+  timeExpired: false
 };
 let questionIndex = 0;
+
+const ASSESSMENT_TIME_SECONDS = 20 * 60; // 20 minutes countdown
+let timerInterval = null;
+
+function shuffleArray(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function createShuffledAssessment() {
+  const indexed = questions.map((origQ, origIdx) => {
+    let shuffledOptIndices = shuffleArray(origQ.a.map((_, i) => i));
+    if (origQ.a.length > 1 && shuffledOptIndices.every((val, idx) => val === idx)) {
+      shuffledOptIndices = [...shuffledOptIndices.slice(1), shuffledOptIndices[0]];
+    }
+    const shuffledOptions = shuffledOptIndices.map(oldIdx => origQ.a[oldIdx]);
+
+    let newC;
+    if (origQ.multi && Array.isArray(origQ.c)) {
+      newC = shuffledOptIndices
+        .map((oldIdx, newIdx) => origQ.c.includes(oldIdx) ? newIdx : -1)
+        .filter(idx => idx !== -1)
+        .sort((a, b) => a - b);
+    } else {
+      newC = shuffledOptIndices.indexOf(origQ.c);
+    }
+
+    return {
+      originalIndex: origIdx,
+      q: origQ.q,
+      a: shuffledOptions,
+      c: newC,
+      optionMap: shuffledOptIndices,
+      multi: origQ.multi,
+      e: origQ.e
+    };
+  });
+
+  // Thoroughly shuffle question order across all positions (e.g. 1 moves to 13, 13 to 19, 4 to 1)
+  let shuffled = shuffleArray(indexed);
+  if (shuffled.length > 1 && shuffled[0].originalIndex === 0) {
+    const swapTarget = Math.floor(Math.random() * (shuffled.length - 1)) + 1;
+    [shuffled[0], shuffled[swapTarget]] = [shuffled[swapTarget], shuffled[0]];
+  }
+  return shuffled;
+}
+
+function getActiveQuestions() {
+  const needsReshuffle = !data.shuffledQuestions ||
+    !Array.isArray(data.shuffledQuestions) ||
+    data.shuffledQuestions.length !== questions.length ||
+    (data.shuffledQuestions.length > 1 && data.shuffledQuestions[0].originalIndex === 0 && data.shuffledQuestions[1].originalIndex === 1);
+
+  if (needsReshuffle) {
+    data.shuffledQuestions = createShuffledAssessment();
+    save();
+  }
+  return data.shuffledQuestions;
+}
+
+function getCanonicalAnswers() {
+  const activeList = getActiveQuestions();
+  const canonical = {};
+  for (let i = 0; i < questions.length; i++) {
+    canonical[i] = questions[i].multi ? [] : -1;
+  }
+  activeList.forEach((sq, pos) => {
+    const userChoice = data.answers[pos];
+    if (userChoice !== undefined && userChoice !== null) {
+      if (sq.multi && Array.isArray(userChoice)) {
+        canonical[sq.originalIndex] = userChoice.map(idx => sq.optionMap[idx]).sort((a, b) => a - b);
+      } else if (!sq.multi && typeof userChoice === 'number' && userChoice >= 0) {
+        canonical[sq.originalIndex] = sq.optionMap[userChoice];
+      }
+    }
+  });
+  return canonical;
+}
+
+function formatTimer(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s < 10 ? '0' : ''}${s}`;
+}
+
+function updateTimerDisplay() {
+  const timerBadge = document.getElementById('quizTimer');
+  const timerDisplay = document.getElementById('timerDisplay');
+  if (!timerBadge || !timerDisplay) return;
+
+  if (!data.timerStartedAt) {
+    data.timerStartedAt = Date.now();
+    save();
+  }
+
+  const elapsed = Math.floor((Date.now() - data.timerStartedAt) / 1000);
+  const remaining = Math.max(0, ASSESSMENT_TIME_SECONDS - elapsed);
+
+  timerDisplay.textContent = formatTimer(remaining);
+
+  timerBadge.classList.remove('normal', 'warning', 'critical');
+  if (remaining <= 60) {
+    timerBadge.classList.add('critical');
+  } else if (remaining <= 300) {
+    timerBadge.classList.add('warning');
+  } else {
+    timerBadge.classList.add('normal');
+  }
+
+  if (remaining <= 0 && data.score === null && !data.timeExpired) {
+    stopTimer();
+    data.timeExpired = true;
+    toast('⏰ Assessment time has expired. Submitting your current answers...');
+    submitQuiz(true);
+  }
+}
+
+function startTimer() {
+  stopTimer();
+  updateTimerDisplay();
+  timerInterval = setInterval(updateTimerDisplay, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
 
 function save() {
   localStorage.setItem(storeKey, JSON.stringify(data));
@@ -1338,6 +1543,7 @@ function render() {
 
   const n = data.current;
   if (n < 3) {
+    stopTimer();
     const l = lessons[n];
     el.innerHTML = `
       <div class="kicker">${l.label} · ${n + 1} of 3</div>
@@ -1480,14 +1686,19 @@ function renderQuiz() {
       data.name = nm;
       data.email = em;
       data.registered = true;
+      data.shuffledQuestions = createShuffledAssessment();
+      data.timerStartedAt = Date.now();
+      data.timeExpired = false;
+      data.answers = {};
       save();
-      toast('✓ Candidate registered. Assessment unlocked.');
+      toast('✓ Candidate registered. 20-minute assessment timer started!');
       renderQuiz();
     };
     return;
   }
 
   if (data.score !== null) {
+    stopTimer();
     const pct = Math.round((data.score / questions.length) * 100);
     const circumference = 2 * Math.PI * 52;
     const offset = circumference - (pct / 100) * circumference;
@@ -1497,6 +1708,8 @@ function renderQuiz() {
         <div class="kicker">Course Assessment Complete</div>
         <h2>Congratulations, ${escapeHtml(data.name.split(' ')[0])}!</h2>
         
+        ${data.timeExpired ? '<div style="display:inline-block;background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:5px 14px;border-radius:20px;font-size:12.5px;font-weight:700;margin-bottom:14px">⏰ Submitted on Timer Expiry</div>' : ''}
+
         <div class="score-circle-wrap">
           <svg viewBox="0 0 120 120">
             <defs>
@@ -1547,21 +1760,26 @@ function renderQuiz() {
     if (retry) retry.onclick = retrySubmission;
 
     document.getElementById('retake').onclick = () => {
+      // Retake: reshuffle questions and options!
+      data.shuffledQuestions = createShuffledAssessment();
       data.score = null;
       data.answers = {};
       data.submitted = false;
-      data.registered = false;
+      data.timeExpired = false;
+      data.timerStartedAt = Date.now();
       data.done = data.done.filter(x => x !== 3);
       data.current = 3;
       questionIndex = 0;
       save();
       renderQuiz();
+      toast('✓ Assessment restarted. Timer started!');
     };
     return;
   }
 
-  questionIndex = Math.min(questionIndex, questions.length - 1);
-  const q = questions[questionIndex];
+  const activeQuestions = getActiveQuestions();
+  questionIndex = Math.min(questionIndex, activeQuestions.length - 1);
+  const q = activeQuestions[questionIndex];
   const userAns = data.answers[questionIndex];
 
   const isSelected = (idx) => {
@@ -1572,23 +1790,32 @@ function renderQuiz() {
   };
 
   el.innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;background:#f0faf8;border:1px solid #cbeadb;border-radius:10px;padding:9px 15px;margin-bottom:20px;font-size:13.5px">
-      <div>
-        <span style="color:var(--muted)">Candidate ID:</span> <b>${escapeHtml(data.name)}</b>
-        <span style="color:var(--teal-700);margin-left:6px;font-size:12.5px">${escapeHtml(data.email)}</span>
+    <div style="display:flex;justify-content:space-between;align-items:center;background:#f0faf8;border:1px solid #cbeadb;border-radius:10px;padding:9px 15px;margin-bottom:20px;font-size:13.5px;flex-wrap:wrap;gap:10px">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <span style="color:var(--muted)">Candidate ID:</span> <b>${escapeHtml(data.name)}</b>
+          <span style="color:var(--teal-700);margin-left:6px;font-size:12.5px">${escapeHtml(data.email)}</span>
+        </div>
+        <button id="changeCandidateBtn" style="background:transparent;border:none;color:var(--teal-700);font-weight:700;cursor:pointer;font-size:12.5px;text-decoration:underline">Change</button>
       </div>
-      <button id="changeCandidateBtn" style="background:transparent;border:none;color:var(--teal-700);font-weight:700;cursor:pointer;font-size:12.5px;text-decoration:underline">Change</button>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="timer-badge normal" id="quizTimer" title="Assessment timer (20 minutes)">
+          <span class="timer-icon">⏱️</span>
+          <span class="timer-time" id="timerDisplay">20:00</span>
+          <span style="font-size:11px;opacity:0.85">left</span>
+        </div>
+      </div>
     </div>
 
-    <div class="kicker">Knowledge check · Question ${questionIndex + 1} of ${questions.length}</div>
+    <div class="kicker">Knowledge check · Question ${questionIndex + 1} of ${activeQuestions.length}</div>
     <h2>${q.multi ? 'Select all that apply' : 'Choose the best answer'}</h2>
     
     <div class="quizprogress">
       <span>Progress</span>
-      <span>${Math.round(((questionIndex + 1) / questions.length) * 100)}%</span>
+      <span>${Math.round(((questionIndex + 1) / activeQuestions.length) * 100)}%</span>
     </div>
     <div class="qbar">
-      <i style="width:${((questionIndex) / questions.length) * 100}%"></i>
+      <i style="width:${((questionIndex) / activeQuestions.length) * 100}%"></i>
     </div>
 
     <div class="question">${escapeHtml(q.q).replace(/\\n/g, '<br>')}</div>
@@ -1598,7 +1825,6 @@ function renderQuiz() {
         <label class="answer ${isSelected(i) ? 'selected' : ''}" data-idx="${i}">
           <div class="radio-dot" style="${q.multi ? 'border-radius:6px' : ''}"></div>
           <span class="text">${escapeHtml(v)}</span>
-          <span class="shortcut-badge">${i + 1}</span>
         </label>
       `).join('')}
     </div>
@@ -1606,10 +1832,12 @@ function renderQuiz() {
     <div class="quizbottom">
       <button class="btn secondary" id="prev" ${questionIndex === 0 ? 'disabled' : ''}>← Previous</button>
       <button class="btn" id="next">
-        ${questionIndex === questions.length - 1 ? 'Submit assessment' : 'Next question →'}
+        ${questionIndex === activeQuestions.length - 1 ? 'Submit assessment' : 'Next question →'}
       </button>
     </div>
   `;
+
+  startTimer();
 
   // Select option via click
   el.querySelectorAll('.answer').forEach(ans => {
@@ -1645,7 +1873,7 @@ function renderQuiz() {
       toast(q.multi ? 'Please select at least one option to continue.' : 'Please choose an answer to continue.');
       return;
     }
-    if (questionIndex < questions.length - 1) {
+    if (questionIndex < activeQuestions.length - 1) {
       questionIndex++;
       renderQuiz();
     } else {
@@ -1656,8 +1884,12 @@ function renderQuiz() {
   if (changeBtn) {
     changeBtn.onclick = () => {
       if (confirm('Change learner? Current unsaved question responses will be cleared.')) {
+        stopTimer();
         data.registered = false;
         data.answers = {};
+        data.shuffledQuestions = createShuffledAssessment();
+        data.timerStartedAt = null;
+        data.timeExpired = false;
         save();
         renderQuiz();
       }
@@ -1670,7 +1902,8 @@ window.onkeydown = (e) => {
   if (data.current === 3 && data.registered && data.score === null && data.name && data.email) {
     if (['1', '2', '3', '4'].includes(e.key)) {
       const idx = Number(e.key) - 1;
-      const q = questions[questionIndex];
+      const activeQuestions = getActiveQuestions();
+      const q = activeQuestions[questionIndex];
       if (q && q.a[idx] !== undefined) {
         if (q.multi) {
           let currentArr = Array.isArray(data.answers[questionIndex]) ? [...data.answers[questionIndex]] : [];
@@ -1698,16 +1931,19 @@ window.onkeydown = (e) => {
 
 function renderReview() {
   const el = document.getElementById('lesson');
+  const activeQuestions = getActiveQuestions();
   el.innerHTML = `
-    <div class="kicker">Answer review · ${questions.length} questions</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:8px">
+      <div class="kicker" style="margin:0">Answer review · ${activeQuestions.length} questions</div>
+    </div>
     <h2>Review your responses</h2>
     <div style="display:flex;flex-direction:column;gap:14px;margin:24px 0">
-      ${questions.map((q, i) => {
+      ${activeQuestions.map((q, i) => {
         const userAns = data.answers[i];
         const correct = isAnswerCorrect(q, userAns);
 
         const formatUserChoice = () => {
-          if (userAns === undefined) return 'Not answered';
+          if (userAns === undefined || userAns === null || (Array.isArray(userAns) && userAns.length === 0)) return 'Not answered';
           if (q.multi && Array.isArray(userAns)) {
             return userAns.map(idx => q.a[idx]).join('; ');
           }
@@ -1753,6 +1989,7 @@ async function retrySubmission() {
     b.textContent = 'Saving...';
   }
   try {
+    const canonicalAnswers = getCanonicalAnswers();
     const res = await fetch('/api/submissions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1763,7 +2000,7 @@ async function retrySubmission() {
         total: questions.length,
         lessonsCompleted: data.done.filter(x => x < 3).length,
         completedAt: new Date().toISOString(),
-        answers: data.answers
+        answers: canonicalAnswers
       })
     });
     if (!res.ok) throw Error();
@@ -1782,8 +2019,10 @@ async function retrySubmission() {
   }
 }
 
-async function submitQuiz() {
-  data.score = questions.reduce((s, q, i) => s + (isAnswerCorrect(q, data.answers[i]) ? 1 : 0), 0);
+async function submitQuiz(autoSubmit = false) {
+  stopTimer();
+  const activeQuestions = getActiveQuestions();
+  data.score = activeQuestions.reduce((s, q, i) => s + (isAnswerCorrect(q, data.answers[i]) ? 1 : 0), 0);
   data.current = 3;
   markDone(3);
   save();
@@ -1859,6 +2098,24 @@ function triggerConfetti() {
     }
   }
   update();
+}
+
+function goHome() {
+  data.current = 0;
+  save();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const brandEl = document.getElementById('brandHome');
+if (brandEl) {
+  brandEl.addEventListener('click', goHome);
+  brandEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      goHome();
+    }
+  });
 }
 
 render();

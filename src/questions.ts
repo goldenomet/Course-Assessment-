@@ -187,10 +187,10 @@ export const questions: Question[] = [
 export function calculateScore(answers: Record<number, number | number[]>): number {
   return questions.reduce((score, q, i) => {
     const userAns = answers[i];
-    if (userAns === undefined) return score;
+    if (userAns === undefined || userAns === null || userAns === -1) return score;
 
     if (q.multi) {
-      if (!Array.isArray(userAns)) return score;
+      if (!Array.isArray(userAns) || userAns.length === 0) return score;
       const sortedUser = [...userAns].sort((a, b) => a - b);
       const sortedCorrect = [...(q.c as number[])].sort((a, b) => a - b);
       const isMatch = sortedUser.length === sortedCorrect.length && sortedUser.every((v, idx) => v === sortedCorrect[idx]);
