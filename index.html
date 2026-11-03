@@ -957,12 +957,34 @@ button {
 }
 
 @media (max-width: 860px) {
+  .shell {
+    padding: 16px 16px 48px;
+  }
+  .topbar {
+    padding: 8px 0 16px;
+  }
+  .brand {
+    font-size: 16px;
+    gap: 10px;
+  }
+  .brandmark-img {
+    height: 32px;
+  }
   .hero {
     grid-template-columns: 1fr;
-    padding-top: 24px;
+    padding-top: 16px;
+    gap: 16px;
+  }
+  .hero h1 {
+    font-size: clamp(22px, 5.5vw, 32px);
+    line-height: 1.25;
+  }
+  .hero-box {
+    padding: 16px 18px;
   }
   .layout {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
   .sidebar {
     position: static;
@@ -970,23 +992,81 @@ button {
   .navlist {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
   .content-card {
-    padding: 28px 24px;
+    padding: 24px 20px;
   }
   .promptcompare {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
 
 @media (max-width: 600px) {
+  .shell {
+    padding: 12px 12px 40px;
+  }
+  .navlist {
+    grid-template-columns: 1fr;
+  }
+  .content-card {
+    padding: 20px 14px;
+    border-radius: 16px;
+  }
+  .content-card h1 {
+    font-size: 22px;
+  }
+  .content-card h3 {
+    font-size: 17px;
+  }
+  
+  /* Quiz & Timer Mobile Adjustments */
+  .quizprogress {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0 10px;
+  }
+  .question {
+    font-size: 18px;
+    line-height: 1.35;
+    margin: 20px 0 14px;
+  }
+  .answers {
+    gap: 10px;
+  }
+  .answer {
+    padding: 12px 14px;
+    gap: 10px;
+    border-radius: 12px;
+  }
+  .radio-dot {
+    width: 18px;
+    height: 18px;
+  }
+  .answer span.text {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  
+  .quizbottom {
+    flex-direction: column-reverse;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .quizbottom .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Form & Welcome Registration */
   .welcomeform {
     grid-template-columns: 1fr;
     gap: 14px;
   }
   .welcomeform .field input {
-    font-size: 16px;
-    padding: 13px 14px;
+    font-size: 16px; /* Prevents iOS focus zoom */
+    padding: 12px 14px;
   }
   .welcomeform .actions {
     flex-direction: column-reverse;
@@ -1002,7 +1082,6 @@ button {
     padding: 13px 18px;
     justify-content: center;
     text-align: center;
-    white-space: normal;
   }
   #backLesson {
     width: 100%;
@@ -1012,17 +1091,48 @@ button {
     justify-content: center;
     text-align: center;
   }
+  
+  /* Action buttons across lessons */
+  .actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 24px;
+    padding-top: 18px;
+  }
+  .actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* End score card mobile */
+  .score-circle-wrap {
+    width: 120px;
+    height: 120px;
+  }
+  .score-number {
+    font-size: 32px;
+  }
+  .result-card {
+    padding: 16px;
+  }
+  .endbox .btn {
+    width: 100%;
+    margin-bottom: 8px;
+  }
 }
 
-@media (max-width: 520px) {
-  .shell {
-    padding: 16px 14px 48px;
+@media (max-width: 480px) {
+  .tags {
+    gap: 6px;
   }
-  .navlist {
-    grid-template-columns: 1fr;
+  .tag {
+    font-size: 12px;
+    padding: 5px 11px;
   }
-  .wide {
-    grid-column: auto;
+  .timer-badge {
+    padding: 4px 10px;
+    font-size: 12px;
   }
 }
 </style>

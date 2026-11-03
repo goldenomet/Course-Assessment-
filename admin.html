@@ -616,27 +616,120 @@ tr:hover td {
 @media (max-width: 900px) {
   .kpi-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 }
 
 @media (max-width: 600px) {
   .shell {
-    padding: 16px 14px 48px;
+    padding: 12px 10px 40px;
+  }
+  .topbar {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 16px;
   }
   .card {
-    padding: 22px 18px;
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+  .card h1 {
+    font-size: 22px;
   }
   .kpi-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .kpi-card {
+    padding: 14px 16px;
   }
   .filter-toolbar {
     flex-direction: column;
     align-items: stretch;
+    gap: 10px;
   }
   .search-wrap {
     min-width: 100%;
     flex-direction: column;
     align-items: stretch;
+    gap: 8px;
+  }
+  .search-input, .filter-select {
+    width: 100%;
+    font-size: 16px; /* Prevents iOS focus zoom */
+    padding: 10px 12px;
+  }
+  .view-tabs {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 4px;
+  }
+  .view-tab {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .drawer-content {
+    padding: 12px;
+    border-left-width: 3px;
+  }
+  .trial-card-row {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    gap: 10px;
+  }
+  .trial-meta-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .trial-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .trial-actions .audit-btn, .trial-actions .pdf-btn {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Audit Modal Mobile */
+  .modal-sheet {
+    max-height: 94vh;
+    border-radius: 16px 16px 0 0;
+  }
+  .modal-header {
+    padding: 16px 18px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .modal-header > div:last-child {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .modal-body {
+    padding: 16px 14px;
+    gap: 12px;
+  }
+  .question-card {
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand {
+    font-size: 16px;
+  }
+  .brandmark-img {
+    height: 32px;
+  }
+  .pdf-btn, .trials-toggle-btn {
+    font-size: 12px;
+    padding: 6px 10px;
   }
 }
 
