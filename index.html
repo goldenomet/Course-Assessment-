@@ -939,21 +939,403 @@ button {
   z-index: 100;
 }
 
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-  pointer-events: auto;
+/* PROJECT UNLOCK CTA & PROJECT CARDS */
+.project-unlock-card {
+  margin: 28px auto 20px;
+  max-width: 580px;
+  text-align: left;
+  background: linear-gradient(135deg, #f0fbf8 0%, #ffffff 100%);
+  border: 2px solid var(--teal-400);
+  border-radius: 18px;
+  padding: 24px 26px;
+  box-shadow: 0 8px 24px -4px rgba(2, 122, 117, 0.12), 0 20px 48px -10px rgba(13, 26, 22, 0.08);
+  position: relative;
+  overflow: hidden;
 }
 
-/* CONFETTI CANVAS */
-#confettiCanvas {
-  position: fixed;
+.project-unlock-card::before {
+  content: '';
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 999;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #026078, #0cb8a7, #d2f274);
+}
+
+.project-unlock-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.project-unlock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(2, 122, 117, 0.12);
+  color: var(--teal-900);
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 99px;
+  letter-spacing: -0.01em;
+}
+
+.project-files-pill {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--teal-700);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  padding: 3px 10px;
+  border-radius: 99px;
+}
+
+.project-unlock-card h3 {
+  font: 800 20px/1.25 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  color: var(--ink);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.project-unlock-card p {
+  color: var(--ink-secondary);
+  font-size: 14.5px;
+  line-height: 1.55;
+  margin: 0 0 18px;
+}
+
+.project-enter-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 14px 24px;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, var(--teal-700) 0%, var(--teal-500) 100%);
+  box-shadow: 0 4px 14px rgba(2, 96, 120, 0.25);
+}
+
+/* PROJECTS PAGE VIEW */
+.projects-header-banner {
+  background: linear-gradient(135deg, #02363b 0%, #026078 60%, #027a75 100%);
+  color: #ffffff;
+  border-radius: 18px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 32px -8px rgba(2, 54, 59, 0.28);
+}
+
+.projects-header-banner h2 {
+  font: 800 clamp(24px, 3.2vw, 32px)/1.2 'Space Grotesk', sans-serif;
+  color: #ffffff;
+  margin: 0 0 10px;
+  letter-spacing: -0.025em;
+}
+
+.projects-header-banner p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 18px;
+  max-width: 680px;
+}
+
+.student-meta-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 13px;
+}
+
+.student-meta-strip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.projects-quickbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding: 14px 18px;
+  background: #f0faf8;
+  border: 1px solid rgba(2, 122, 117, 0.15);
+  border-radius: 14px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.project-card {
+  background: #ffffff;
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-elevated);
+  border-color: var(--teal-400);
+}
+
+.project-badge-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.project-num-badge {
+  font: 800 12px 'Space Grotesk', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+  border-radius: 99px;
+  background: rgba(2, 122, 117, 0.1);
+  color: var(--teal-800);
+  border: 1px solid rgba(2, 122, 117, 0.2);
+}
+
+.project-format-pill {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  background: #f6f8f5;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.project-card h3 {
+  font: 700 20px/1.3 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  color: var(--ink);
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+}
+
+.project-card p.project-desc {
+  font-size: 14.5px;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+  margin: 0 0 18px;
+}
+
+.project-checklist-box {
+  background: #f7faf8;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+}
+
+.project-checklist-box b {
+  display: block;
+  color: var(--teal-900);
+  margin-bottom: 6px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.project-checklist-box ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--ink-secondary);
+}
+
+.project-checklist-box li {
+  margin-bottom: 5px;
+}
+
+.template-download-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.template-file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #f8faf8;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.template-file-row:hover {
+  background: #f0faf6;
+  border-color: #c9ecdf;
+}
+
+.file-info-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.file-type-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 11px;
+  flex: none;
+}
+
+.file-type-icon.docx {
+  background: #e8f0fe;
+  color: #1a73e8;
+  border: 1px solid #cce0ff;
+}
+
+.file-type-icon.xlsx {
+  background: #e6f4ea;
+  color: #137333;
+  border: 1px solid #ceead6;
+}
+
+.file-name-text {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-meta-sub {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.btn-file-dl {
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  background: var(--teal-600);
+  color: #ffffff;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-file-dl:hover {
+  background: var(--teal-700);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(2, 122, 117, 0.2);
+}
+
+.project-steps-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.project-step-box {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 13px;
+}
+
+.project-step-box .step-num {
+  font: 800 12px 'Space Grotesk', sans-serif;
+  color: var(--teal-600);
+  margin-bottom: 4px;
+}
+
+.project-step-box b {
+  display: block;
+  color: var(--ink);
+  font-size: 13.5px;
+  margin-bottom: 3px;
+}
+
+.project-step-box p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+@media (max-width: 860px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .project-steps-strip {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .project-steps-strip {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .template-file-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .btn-file-dl {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    min-height: 44px;
+    font-size: 14px;
+  }
+  .projects-quickbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .projects-quickbar .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
 }
 
 @media (max-width: 860px) {
@@ -969,6 +1351,7 @@ button {
   }
   .brandmark-img {
     height: 32px;
+    width: 32px;
   }
   .hero {
     grid-template-columns: 1fr;
@@ -994,6 +1377,10 @@ button {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
+  .navitem {
+    min-height: 44px;
+    padding: 10px 12px;
+  }
   .content-card {
     padding: 24px 20px;
   }
@@ -1005,20 +1392,64 @@ button {
 
 @media (max-width: 600px) {
   .shell {
-    padding: 12px 12px 40px;
+    padding: 12px 10px 40px;
+    overflow-x: hidden;
+  }
+  .topbar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .brand {
+    font-size: 15px;
+  }
+  .brandmark-img {
+    height: 30px;
+    width: 30px;
   }
   .navlist {
     grid-template-columns: 1fr;
   }
+  .navitem {
+    min-height: 44px;
+  }
   .content-card {
-    padding: 20px 14px;
+    padding: 18px 14px;
     border-radius: 16px;
   }
   .content-card h1 {
-    font-size: 22px;
+    font-size: 21px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .content-card h2 {
+    font-size: 20px;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
   .content-card h3 {
-    font-size: 17px;
+    font-size: 16.5px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .lead {
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+  .callout {
+    padding: 14px 16px;
+    margin: 18px 0;
+  }
+  .prompt {
+    padding: 14px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .copy-btn {
+    padding: 6px 12px;
+    min-height: 38px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
   }
   
   /* Quiz & Timer Mobile Adjustments */
@@ -1028,35 +1459,45 @@ button {
     margin: 16px 0 10px;
   }
   .question {
-    font-size: 18px;
+    font-size: 17.5px;
     line-height: 1.35;
-    margin: 20px 0 14px;
+    margin: 16px 0 14px;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
   .answers {
     gap: 10px;
   }
   .answer {
-    padding: 12px 14px;
-    gap: 10px;
+    padding: 14px 14px;
+    gap: 12px;
     border-radius: 12px;
+    min-height: 48px;
+    align-items: flex-start;
   }
   .radio-dot {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    flex: none;
   }
   .answer span.text {
     font-size: 14px;
     line-height: 1.45;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
   
   .quizbottom {
     flex-direction: column-reverse;
     gap: 10px;
-    margin-top: 24px;
+    margin-top: 22px;
   }
   .quizbottom .btn {
     width: 100%;
     justify-content: center;
+    min-height: 48px;
+    font-size: 15px;
   }
 
   /* Form & Welcome Registration */
@@ -1064,9 +1505,10 @@ button {
     grid-template-columns: 1fr;
     gap: 14px;
   }
-  .welcomeform .field input {
+  .field input {
     font-size: 16px; /* Prevents iOS focus zoom */
     padding: 12px 14px;
+    min-height: 46px;
   }
   .welcomeform .actions {
     flex-direction: column-reverse;
@@ -1085,7 +1527,7 @@ button {
   }
   #backLesson {
     width: 100%;
-    min-height: 44px;
+    min-height: 46px;
     font-size: 14px;
     padding: 12px 16px;
     justify-content: center;
@@ -1103,43 +1545,122 @@ button {
   .actions .btn {
     width: 100%;
     justify-content: center;
+    min-height: 48px;
+    font-size: 15px;
   }
 
   /* End score card mobile */
   .score-circle-wrap {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
+    margin: 16px auto 20px;
   }
   .score-number {
-    font-size: 32px;
+    font-size: 30px;
   }
   .result-card {
-    padding: 16px;
+    padding: 16px 14px;
+    margin: 18px auto;
+  }
+  .project-unlock-card {
+    padding: 18px 14px;
+    margin: 20px auto 16px;
+  }
+  .project-unlock-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .project-enter-btn {
+    padding: 14px 18px;
+    min-height: 48px;
+    font-size: 14.5px;
   }
   .endbox .btn {
     width: 100%;
-    margin-bottom: 8px;
+    min-height: 46px;
+    margin-bottom: 6px;
+    justify-content: center;
+  }
+
+  /* Projects Page Banner Mobile */
+  .projects-header-banner {
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+  .projects-header-banner h2 {
+    font-size: 21px;
+  }
+  .student-meta-strip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-top: 12px;
+  }
+  .student-meta-strip span {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    max-width: 100%;
+  }
+  .project-card {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+  .project-badge-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .toast {
+    max-width: 92vw;
+    font-size: 13px;
+    padding: 11px 16px;
+    text-align: center;
+    justify-content: center;
+    bottom: 20px;
   }
 }
 
 @media (max-width: 480px) {
+  .hero-box {
+    padding: 14px 16px;
+    min-height: auto;
+  }
+  .hero-box strong {
+    font-size: 18px;
+  }
+  .hero-box span {
+    font-size: 13px;
+  }
+  .hero-box::after {
+    font-size: 80px;
+    bottom: -25px;
+    right: 6px;
+  }
   .tags {
-    gap: 6px;
+    gap: 8px;
   }
   .tag {
-    font-size: 12px;
-    padding: 5px 11px;
+    font-size: 12.5px;
+    padding: 8px 14px;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    touch-action: manipulation;
   }
   .timer-badge {
-    padding: 4px 10px;
-    font-size: 12px;
+    padding: 6px 12px;
+    font-size: 12.5px;
+  }
+  .file-name-text {
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 }
 </style>
 </head>
 <body>
-<canvas id="confettiCanvas"></canvas>
-
 <div class="shell" id="app">
   <header class="topbar">
     <div class="brand" id="brandHome" role="button" tabindex="0" title="Go back to home page" aria-label="Go back to home page">
@@ -1613,14 +2134,16 @@ function renderNav() {
   nav.innerHTML = '';
   const items = [
     ...lessons.map((x, i) => ({ label: x.title, n: i })),
-    { label: `${questions.length}-question assessment`, n: 3 }
+    { label: `${questions.length}-question assessment`, n: 3 },
+    { label: 'Practical Projects (1 & 2)', n: 4 }
   ];
 
   items.forEach(it => {
     const b = document.createElement('button');
     b.className = 'navitem' + (data.current === it.n ? ' active' : '') + (data.done.includes(it.n) ? ' done' : '');
+    const badgeNum = data.done.includes(it.n) ? '✓' : (it.n === 3 ? 'Q' : (it.n === 4 ? 'P' : it.n + 1));
     b.innerHTML = `
-      <span class="navnum">${data.done.includes(it.n) ? '✓' : (it.n === 3 ? 'Q' : it.n + 1)}</span>
+      <span class="navnum">${badgeNum}</span>
       <span>${it.label}</span>
     `;
     b.onclick = () => {
@@ -1633,7 +2156,7 @@ function renderNav() {
 }
 
 function renderProgress() {
-  const pct = Math.round((data.done.length / 4) * 100);
+  const pct = Math.round((data.done.length / 5) * 100);
   document.getElementById('progressText').textContent = pct + '%';
   document.getElementById('progressBar').style.width = pct + '%';
 }
@@ -1660,8 +2183,7 @@ function render() {
       <h2>${l.title}</h2>
       <p class="lead">${l.lead}</p>
       <div class="lessonbody">${l.body}</div>
-      <div class="actions">
-        <span class="kicker" style="color:var(--muted)">Workplace AI Lesson</span>
+      <div class="actions" style="justify-content:flex-end">
         <button class="btn" id="continue">
           ${n === 2 ? 'Continue to assessment' : 'Mark lesson complete & continue'} →
         </button>
@@ -1678,9 +2200,158 @@ function render() {
       save();
       render();
     };
-  } else {
+  } else if (n === 3) {
     renderQuiz();
+  } else if (n === 4) {
+    renderProjects();
   }
+}
+
+function renderProjects() {
+  stopTimer();
+  const el = document.getElementById('lesson');
+  el.classList.remove('content-enter');
+  void el.offsetWidth;
+  el.classList.add('content-enter');
+
+  const candidateName = data.name ? escapeHtml(data.name) : 'Student';
+  const candidateEmail = data.email ? escapeHtml(data.email) : 'Not registered';
+  const scoreDisplay = data.score !== null ? `${data.score}/${questions.length} (${Math.round((data.score / questions.length) * 100)}%)` : 'Assessment pending';
+
+  el.innerHTML = `
+    <div class="projects-header-banner">
+      <div class="kicker" style="color:var(--lime);margin-bottom:8px">Phase 2 · Applied Workplace Assignments</div>
+      <p style="margin:4px 0 16px;font-size:15px;color:rgba(255,255,255,0.92)">Download Project 1 and Project 2 templates to complete your practical workplace deliverables.</p>
+      
+      <div class="student-meta-strip">
+        <span>👤 <b>Candidate:</b> ${candidateName}</span>
+        <span>✉️ <b>Email:</b> ${candidateEmail}</span>
+        <span>📊 <b>Assessment Score:</b> ${scoreDisplay}</span>
+        <span>📁 <b>Templates:</b> 3 files available</span>
+      </div>
+    </div>
+
+    <!-- Grouped Project Cards -->
+    <div class="projects-grid">
+      <!-- Project 1 Card -->
+      <div class="project-card">
+        <div class="project-badge-bar">
+          <span class="project-num-badge">Project 1</span>
+          <span class="project-format-pill">Word Document · 1.14 MB</span>
+        </div>
+
+        <div class="template-download-group" style="margin-top:0;padding-top:0;border-top:none">
+          <div class="template-file-row">
+            <div class="file-info-main">
+              <div class="file-type-icon docx">DOCX</div>
+              <div style="min-width:0">
+                <div class="file-name-text" title="PROJECT 1.docx">PROJECT 1.docx</div>
+                <div class="file-meta-sub">Official Report Template · 1.14 MB</div>
+              </div>
+            </div>
+            <a href="/projects/PROJECT%201.docx" download="PROJECT 1.docx" class="btn-file-dl" id="dlProject1">
+              <span>Download</span> ⤓
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 Card -->
+      <div class="project-card">
+        <div class="project-badge-bar">
+          <span class="project-num-badge" style="background:rgba(2,96,120,0.1);color:#026078;border-color:rgba(2,96,120,0.2)">Project 2</span>
+          <span class="project-format-pill">Word Document · 1.14 MB</span>
+        </div>
+
+        <div class="template-download-group" style="margin-top:0;padding-top:0;border-top:none">
+          <div class="template-file-row">
+            <div class="file-info-main">
+              <div class="file-type-icon docx">DOCX</div>
+              <div style="min-width:0">
+                <div class="file-name-text" title="PROJECT 2.docx">PROJECT 2.docx</div>
+                <div class="file-meta-sub">Official Report Template · 1.14 MB</div>
+              </div>
+            </div>
+            <a href="/projects/PROJECT%202.docx" download="PROJECT 2.docx" class="btn-file-dl" id="dlProject2Doc">
+              <span>Download</span> ⤓
+            </a>
+          </div>
+
+          <div class="template-file-row">
+            <div class="file-info-main">
+              <div class="file-type-icon xlsx">XLSX</div>
+              <div style="min-width:0">
+                <div class="file-name-text" title="Accounts-Receivable for project 2.xlsx">Accounts-Receivable for project 2.xlsx</div>
+                <div class="file-meta-sub">Companion Dataset · 61 KB</div>
+              </div>
+            </div>
+            <a href="/projects/Accounts-Receivable%20for%20project%202.xlsx" download="Accounts-Receivable for project 2.xlsx" class="btn-file-dl" id="dlProject2Xls">
+              <span>Download</span> ⤓
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="actions">
+      <button class="btn secondary" id="backToQuizResult">
+        ${data.score !== null ? '← Back to Assessment Results' : '← Back to Assessment'}
+      </button>
+      <button class="btn" id="markProjectsStarted">
+        ${data.done.includes(4) ? '✓ Project Phase Unlocked & Saved' : 'Mark Templates Downloaded & Complete Course'} →
+      </button>
+    </div>
+  `;
+
+  // Attach reliable blob download handlers for direct 1.14 MB download
+  const bindDownload = (id, filename, primaryUrl, fallbackUrl) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.onclick = async (e) => {
+      e.preventDefault();
+      toast(`Downloading ${filename}...`);
+      try {
+        const res = await fetch(primaryUrl);
+        if (!res.ok) throw new Error('Primary URL failed');
+        const blob = await res.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+        const mb = (blob.size / (1024 * 1024)).toFixed(2);
+        toast(`✓ Downloaded ${filename} (${mb >= 1 ? mb + ' MB' : Math.round(blob.size / 1024) + ' KB'})`);
+      } catch {
+        const a = document.createElement('a');
+        a.href = fallbackUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    };
+  };
+
+  bindDownload('dlProject1', 'PROJECT 1.docx', '/projects/PROJECT%201.docx', '/api/projects/download/PROJECT%201.docx');
+  bindDownload('dlProject2Doc', 'PROJECT 2.docx', '/projects/PROJECT%202.docx', '/api/projects/download/PROJECT%202.docx');
+  bindDownload('dlProject2Xls', 'Accounts-Receivable for project 2.xlsx', '/projects/Accounts-Receivable%20for%20project%202.xlsx', '/api/projects/download/Accounts-Receivable%20for%20project%202.xlsx');
+
+  document.getElementById('backToQuizResult').onclick = () => {
+    data.current = 3;
+    save();
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  document.getElementById('markProjectsStarted').onclick = () => {
+    markDone(4);
+    toast('✓ Project templates marked downloaded. Course progress 100% complete!');
+    render();
+  };
 }
 
 function setupChecklistTags() {
@@ -1847,9 +2518,21 @@ function renderQuiz() {
           ${!data.submitted ? '<button class="btn secondary" id="retrySend" style="padding:8px 16px;font-size:13px">Retry sync</button>' : ''}
         </div>
 
+        <div class="project-unlock-card">
+          <div class="project-unlock-header">
+            <span class="project-unlock-badge">Phase 2 · Practical Projects</span>
+            <span class="project-files-pill">Project 1 &amp; Project 2 Templates Ready</span>
+          </div>
+          <h3>Next Step: Enter Course Projects</h3>
+          <p>You have finished the assessment! Apply your workplace prompting and verification skills to hands-on deliverables. Download the official templates for <b>Project 1</b> and <b>Project 2</b> (including the Accounts Receivable ledger dataset).</p>
+          <button class="btn project-enter-btn" id="enterProjectsFromScore">
+            <span>Enter Project Page &amp; Download Templates</span> →
+          </button>
+        </div>
+
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
           <button class="btn secondary" id="reviewAnswers">Review answers</button>
-          <button class="btn" id="retake">Retake assessment</button>
+          <button class="btn secondary" id="retake">Retake assessment</button>
         </div>
       </div>
     `;
@@ -1860,6 +2543,17 @@ function renderQuiz() {
     }, 100);
 
     triggerConfetti();
+
+    const enterProjBtn = document.getElementById('enterProjectsFromScore');
+    if (enterProjBtn) {
+      enterProjBtn.onclick = () => {
+        data.current = 4;
+        markDone(3);
+        save();
+        render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+    }
 
     document.getElementById('reviewAnswers').onclick = () => {
       questionIndex = 0;

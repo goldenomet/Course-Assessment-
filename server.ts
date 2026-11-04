@@ -16,7 +16,7 @@ const isProd = process.env.NODE_ENV === 'production';
 // Parse arguments if passed via CLI like --port 3000
 const portArgIndex = process.argv.indexOf('--port');
 const portArg = portArgIndex !== -1 ? Number(process.argv[portArgIndex + 1]) : null;
-const port = Number(portArg || (isProd ? process.env.PORT || 8080 : process.env.DEFAULT_APP_PORT || 3000));
+const port = Number(portArg || process.env.PORT || process.env.DEFAULT_APP_PORT || 3000);
 const host = '0.0.0.0';
 
 // Default admin key matches the secret documented in README.md
@@ -268,9 +268,25 @@ app.get(['/admin', '/admin.html'], (_req, res) => {
   return res.sendFile(adminSrc);
 });
 
+// Project template downloads
+app.get('/api/projects/download/:filename', (req, res) => {
+  const filename = path.basename(req.params.filename);
+  const possiblePaths = [
+    path.join(root, 'public', 'projects', filename),
+    path.join(root, 'src', 'projects', filename),
+  ];
+  const found = possiblePaths.find(p => fs.existsSync(p));
+  if (found) {
+    res.download(found, filename);
+  } else {
+    res.status(404).json({ error: 'Project file not found' });
+  }
+});
+
 async function startServer() {
   // Direct asset fallbacks
   app.use('/assets', express.static(path.join(root, 'public', 'assets')));
+  app.use('/projects', express.static(path.join(root, 'public', 'projects')));
   app.use('/public', express.static(path.join(root, 'public')));
 
   if (!isProd) {
@@ -288,12 +304,19 @@ async function startServer() {
     });
   }
 
-  app.listen(port, host, () => {
+  const server = app.listen(port, host, () => {
     console.log(`Course Assessment running at http://${host}:${port} [mode: ${isProd ? 'production' : 'development'}]`);
+  });
+
+  server.on('error', (err: any) => {
+    console.error('Server listen error:', err);
   });
 }
 
-startServer();
+startServer().catch((err) => {
+  console.error('Fatal error during server startup:', err);
+  process.exit(1);
+});
 
 for (const signal of ['SIGINT', 'SIGTERM'] as const) {
   process.on(signal, () => process.exit(0));

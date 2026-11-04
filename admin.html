@@ -623,25 +623,73 @@ tr:hover td {
 @media (max-width: 600px) {
   .shell {
     padding: 12px 10px 40px;
+    overflow-x: hidden;
   }
   .topbar {
     flex-wrap: wrap;
-    gap: 12px;
-    padding-bottom: 16px;
+    gap: 10px;
+    padding-bottom: 14px;
+  }
+  .brand {
+    font-size: 15px;
+  }
+  .brandmark-img {
+    height: 32px;
+    width: 32px;
+  }
+  .top-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .studentlink, .logout-btn {
+    flex: 1;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
   .card {
     padding: 18px 14px;
     border-radius: 16px;
   }
   .card h1 {
-    font-size: 22px;
+    font-size: 21px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .login-box {
+    max-width: 100%;
+    width: 100%;
+    padding: 20px 14px;
+    margin: 20px 0;
+  }
+  .input-wrap input {
+    font-size: 16px; /* Prevents iOS focus zoom */
+    padding: 12px 42px 12px 14px;
+    min-height: 46px;
+  }
+  .input-eye {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  #loginBtn {
+    min-height: 48px;
+    font-size: 15px;
+    width: 100%;
   }
   .kpi-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
   .kpi-card {
-    padding: 14px 16px;
+    padding: 14px 14px;
+  }
+  .kpi-value {
+    font-size: 26px;
   }
   .filter-toolbar {
     flex-direction: column;
@@ -658,22 +706,45 @@ tr:hover td {
     width: 100%;
     font-size: 16px; /* Prevents iOS focus zoom */
     padding: 10px 12px;
+    min-height: 44px;
   }
   .view-tabs {
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    gap: 4px;
+    gap: 6px;
+    padding-bottom: 4px;
   }
   .view-tab {
-    flex: 1;
+    flex: none;
+    min-height: 44px;
     justify-content: center;
-    padding: 8px 10px;
-    font-size: 13px;
+    padding: 10px 14px;
+    font-size: 13.5px;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+  }
+  .table-container {
+    border-radius: 12px;
+  }
+  .scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table {
+    min-width: 580px;
+  }
+  .audit-btn, .pdf-btn {
+    min-height: 42px;
+    padding: 8px 14px;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .drawer-content {
-    padding: 12px;
+    padding: 12px 10px;
     border-left-width: 3px;
   }
   .trial-card-row {
@@ -690,46 +761,77 @@ tr:hover td {
   .trial-actions {
     width: 100%;
     justify-content: space-between;
+    gap: 8px;
   }
   .trial-actions .audit-btn, .trial-actions .pdf-btn {
     flex: 1;
+    min-height: 44px;
     justify-content: center;
     text-align: center;
   }
 
   /* Audit Modal Mobile */
+  .modal-backdrop {
+    padding: 10px 6px;
+    align-items: flex-end;
+  }
   .modal-sheet {
-    max-height: 94vh;
-    border-radius: 16px 16px 0 0;
+    max-height: 92vh;
+    border-radius: 20px 20px 0 0;
+    width: 100%;
   }
   .modal-header {
-    padding: 16px 18px;
-    flex-wrap: wrap;
-    gap: 10px;
+    padding: 16px 14px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .modal-header > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
   .modal-header > div:last-child {
     width: 100%;
     justify-content: space-between;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  #modalPdfBtn {
+    flex: 1;
+    min-height: 44px;
+    justify-content: center;
+    font-size: 13px;
+  }
+  .modal-close {
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 24px;
+    display: grid;
+    place-items: center;
+    flex: none;
   }
   .modal-body {
-    padding: 16px 14px;
+    padding: 14px 12px;
     gap: 12px;
   }
   .question-card {
-    padding: 12px 14px;
+    padding: 12px;
+    font-size: 13.5px;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 }
 
-@media (max-width: 480px) {
-  .brand {
-    font-size: 16px;
-  }
-  .brandmark-img {
-    height: 32px;
+@media (max-width: 380px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
   }
   .pdf-btn, .trials-toggle-btn {
     font-size: 12px;
-    padding: 6px 10px;
+    padding: 8px 10px;
+    min-height: 42px;
   }
 }
 
