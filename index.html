@@ -370,11 +370,25 @@ button {
 }
 
 .kicker {
-  color: var(--teal-600);
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #eaf7f4;
+  border: 1px solid #bce6dd;
+  color: var(--teal-700);
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 11.5px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.projects-header-banner .kicker {
+  background: rgba(210, 242, 116, 0.14);
+  border: 1px solid rgba(210, 242, 116, 0.3);
+  color: var(--lime) !important;
 }
 
 .content-card h2 {
@@ -1708,7 +1722,6 @@ const lessons = [
     lead: 'Treat AI like a new junior teammate: quick and useful, but still in need of clear direction and review.',
     body: `
       <h3>Give the work a clear brief</h3>
-      <p>A prompt is the instruction, question, and background information you give an AI. Think of it as a delegation brief. A vague request leaves gaps; generative AI may fill those gaps with assumptions and confident but false information, sometimes called hallucinations or confabulations.</p>
       
       <div class="callout">
         <b>AI assists; you stay accountable.</b>
@@ -1720,12 +1733,8 @@ const lessons = [
         <span class="tag" data-part="task">1 · Task</span>
         <span class="tag" data-part="context">2 · Context</span>
         <span class="tag" data-part="constraints">3 · Constraints</span>
-        <span class="tag" data-part="format">4 · Format</span>
-        <span class="tag" data-part="verification">5 · Verification</span>
       </div>
       <div class="tag-tip" id="tagTip"></div>
-
-      <p>Say what to produce, provide relevant verified facts and audience, state what is off-limits, specify how the output should look, and explain how a person will check it.</p>
       
       <h3>Weak prompt vs. stronger prompt</h3>
       <div class="promptcompare">
@@ -2237,7 +2246,6 @@ function renderProjects() {
       <div class="project-card">
         <div class="project-badge-bar">
           <span class="project-num-badge">Project 1</span>
-          <span class="project-format-pill">Word Document · 1.14 MB</span>
         </div>
 
         <div class="template-download-group" style="margin-top:0;padding-top:0;border-top:none">
@@ -2246,7 +2254,6 @@ function renderProjects() {
               <div class="file-type-icon docx">DOCX</div>
               <div style="min-width:0">
                 <div class="file-name-text" title="PROJECT 1.docx">PROJECT 1.docx</div>
-                <div class="file-meta-sub">Official Report Template · 1.14 MB</div>
               </div>
             </div>
             <a href="/projects/PROJECT%201.docx" download="PROJECT 1.docx" class="btn-file-dl" id="dlProject1">
@@ -2260,7 +2267,6 @@ function renderProjects() {
       <div class="project-card">
         <div class="project-badge-bar">
           <span class="project-num-badge" style="background:rgba(2,96,120,0.1);color:#026078;border-color:rgba(2,96,120,0.2)">Project 2</span>
-          <span class="project-format-pill">Word Document · 1.14 MB</span>
         </div>
 
         <div class="template-download-group" style="margin-top:0;padding-top:0;border-top:none">
@@ -2269,7 +2275,6 @@ function renderProjects() {
               <div class="file-type-icon docx">DOCX</div>
               <div style="min-width:0">
                 <div class="file-name-text" title="PROJECT 2.docx">PROJECT 2.docx</div>
-                <div class="file-meta-sub">Official Report Template · 1.14 MB</div>
               </div>
             </div>
             <a href="/projects/PROJECT%202.docx" download="PROJECT 2.docx" class="btn-file-dl" id="dlProject2Doc">
@@ -2282,7 +2287,6 @@ function renderProjects() {
               <div class="file-type-icon xlsx">XLSX</div>
               <div style="min-width:0">
                 <div class="file-name-text" title="Accounts-Receivable for project 2.xlsx">Accounts-Receivable for project 2.xlsx</div>
-                <div class="file-meta-sub">Companion Dataset · 61 KB</div>
               </div>
             </div>
             <a href="/projects/Accounts-Receivable%20for%20project%202.xlsx" download="Accounts-Receivable for project 2.xlsx" class="btn-file-dl" id="dlProject2Xls">
